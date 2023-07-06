@@ -61,6 +61,7 @@ class MainTableViewCell: UITableViewCell {
         guard let image = foodCategoryImage else { return }
         foodCategoryImageView.image = image
     }
+    
     func setupText(_ foodCategoryName: String) {
         foodCategoryNameLabel.text = foodCategoryName
     }
@@ -69,6 +70,7 @@ class MainTableViewCell: UITableViewCell {
 
     private func setupViews() {
         selectionStyle = .none
+        contentView.backgroundColor = .white
         contentView.addSubview(separatorView)
         contentView.addSubview(foodCategoryImageView)
         foodCategoryImageView.addSubview(foodCategoryNameLabel)

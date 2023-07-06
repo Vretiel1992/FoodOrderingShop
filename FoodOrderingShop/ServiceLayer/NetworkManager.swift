@@ -8,8 +8,8 @@
 import Foundation
 
 protocol NetworkManagerProtocol {
-    func loadDataOfFoodCategories(completion: @escaping (Result<FoodCategories?, Error>) -> Void)
-    func loadImageData(urlText: String, completion: @escaping (Result<Data, Error>) -> Void)
+    func loadDataModel<T: Codable>(url: String, _ completion: @escaping (Result<T?, Error>) -> Void)
+    func loadImageData(urlText: String, _ completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 class NetworkManager: NetworkManagerProtocol {
@@ -33,8 +33,8 @@ class NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Protocol Methods
 
-    func loadDataOfFoodCategories(completion: @escaping (Result<FoodCategories?, Error>) -> Void) {
-        guard let url = URL(string: Const.Strings.urlFoodCategories) else { return }
+    func loadDataModel<T: Codable>(url: String, _ completion: @escaping (Result<T?, Error>) -> Void) {
+        guard let url = URL(string: url) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 error.isNoInternetConnection
@@ -47,8 +47,8 @@ class NetworkManager: NetworkManagerProtocol {
                 return
             }
             do {
-                let dataOfFoodCategories = try JSONDecoder().decode(FoodCategories?.self, from: data)
-                completion(.success(dataOfFoodCategories))
+                let modelData = try JSONDecoder().decode(T?.self, from: data)
+                completion(.success(modelData))
             } catch {
                 completion(.failure(FetchError.unknown))
             }
@@ -56,7 +56,7 @@ class NetworkManager: NetworkManagerProtocol {
         task.resume()
     }
 
-    func loadImageData(urlText: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    func loadImageData(urlText: String, _ completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: urlText) else { return }
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {

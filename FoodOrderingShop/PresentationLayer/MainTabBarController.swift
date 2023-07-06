@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
     // MARK: - Private Properties
 
     private let assembly: AssemblyProtocol
-    
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -59,6 +59,7 @@ class MainTabBarController: UITabBarController {
             controller.tabBarItem = UITabBarItem(title: Const.Strings.TabBar.title(for: tab),
                                                  image: Const.Images.TabBar.icon(for: tab),
                                                  tag: tab.rawValue)
+
             return controller
         }
         setViewControllers(controllers, animated: false)

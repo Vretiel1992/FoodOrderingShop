@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 protocol MainViewProtocol: AnyObject {
-    func success(dataOfFoodCategories: [FoodСategory])
-    func success(imageData: Data)
+    func update()
     func failure(error: String)
     func updateLocationLabel(text: String)
     func showLocationAccessDeniedAlert()
@@ -24,23 +23,26 @@ class MainViewController: UIViewController {
 
     // MARK: - Private Properties
 
-    private var foodCategories: [FoodСategory] = []
     private var foodCategoryImage: UIImage?
     private let topMainView = TopMainView()
+    private let loadingView = LoadingView()
 
-    private lazy var errorMainView: ErrorMainView = {
-        let view = ErrorMainView()
+    private lazy var errorView: ErrorView = {
+        let view = ErrorView()
         view.didTapUpdateViewButton = { [weak self] in
-            self?.presenter?.viewDidLoad()
+            guard let self = self else { return }
+            self.loadingView.show()
+            self.presenter?.viewDidLoad()
         }
         return view
     }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
+        tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = 148
+        tableView.estimatedRowHeight = 156
         tableView.separatorStyle = .none
         tableView.register(
             UITableViewCell.self,
@@ -58,18 +60,34 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        configureNavigationBar()
         setupConstraints()
+        loadingView.show()
         presenter?.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideNavigationBar()
     }
 
     // MARK: - Private Methods
 
     private func setupViews() {
         view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
         view.addSubview(topMainView)
         view.addSubview(tableView)
-        view.addSubview(errorMainView)
+        view.addSubview(loadingView)
+        view.addSubview(errorView)
+    }
+
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.backButtonTitle = Const.Strings.empty
+    }
+
+    private func hideNavigationBar() {
+        navigationController?.navigationBar.isHidden.toggle()
     }
 
     private func setupConstraints() {
@@ -80,7 +98,11 @@ class MainViewController: UIViewController {
             make.top.equalTo(topMainView.snp.bottom)
             make.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        errorMainView.snp.makeConstraints { make in
+        loadingView.snp.makeConstraints { make in
+            make.center.equalTo(view)
+            make.width.equalTo(160)
+        }
+        errorView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view).inset(50)
             make.centerY.equalTo(view)
         }
@@ -91,22 +113,19 @@ class MainViewController: UIViewController {
 
 extension MainViewController: MainViewProtocol {
 
-    func success(dataOfFoodCategories: [FoodСategory]) {
-        foodCategories = dataOfFoodCategories
+    func update() {
+        loadingView.hide()
         tableView.reloadData()
-        errorMainView.isHidden = true
+        errorView.isHidden = true
         topMainView.isHidden = false
         tableView.isHidden = false
         tabBarController?.tabBar.isHidden = false
     }
 
-    func success(imageData: Data) {
-        self.foodCategoryImage = UIImage(data: imageData)
-    }
-
     func failure(error: String) {
-        errorMainView.updateErrorTextLabel(text: error)
-        errorMainView.isHidden = false
+        errorView.updateErrorTextLabel(text: error)
+        loadingView.hide()
+        errorView.isHidden = false
         topMainView.isHidden = true
         tableView.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -114,19 +133,25 @@ extension MainViewController: MainViewProtocol {
 
     func showLocationAccessDeniedAlert() {
         let alert = UIAlertController(
-            title: "Доступ к геолокации запрещен",
-            message: "Для определения вашего местоположения необходимо включить доступ к геолокации в настройках приложения.",
+            title: Const.Strings.locationAlertTitle,
+            message: Const.Strings.locationAlertMessage,
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Настройки", style: .default) { _ in
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
+        alert.addAction(UIAlertAction(
+            title: Const.Strings.settingButton,
+            style: .default
+        ) { _ in
+            guard let settingsURL = URL(
+                string: UIApplication.openSettingsURLString
+            ) else { return }
             if UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.open(settingsURL)
             }
         })
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(
+            title: Const.Strings.cancelButton,
+            style: .cancel
+        ))
         present(alert, animated: true)
     }
 
@@ -139,7 +164,7 @@ extension MainViewController: MainViewProtocol {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        foodCategories.count
+        presenter?.giveFoodCategoriesData().count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,6 +178,7 @@ extension MainViewController: UITableViewDataSource {
             )
             return cell
         }
+        let foodCategories = presenter?.giveFoodCategoriesData() ?? []
         if let urlToImage = foodCategories[indexPath.row].imageURL {
             presenter?.giveImageData(url: urlToImage) { data in
                 guard let imageData = data else { return }
@@ -181,6 +207,12 @@ extension MainViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        presenter?.didTapFoodCategory(index: indexPath.row)
+        #warning("убрать")
+        if let foodCategories = presenter?.giveFoodCategoriesData() {
+            let foodCategory = foodCategories[indexPath.row]
+            let detailFoodCategoryVC = Assembly().createDetailFoodCategoryModule(foodCategory: foodCategory)
+            navigationController?.pushViewController(detailFoodCategoryVC, animated: true)
+        }
     }
 }

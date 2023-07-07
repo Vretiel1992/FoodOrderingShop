@@ -10,13 +10,13 @@ import Foundation
 protocol MainPresenterProtocol: AnyObject {
     init(
         view: MainViewProtocol,
-//        router: RouterProtocol,
+        mapper: MapperProtocol,
+        router: MainRouterProtocol,
         networkManager: NetworkManagerProtocol,
         locationManager: LocationManagerProtocol
     )
     func viewDidLoad()
-    func giveFoodCategoriesData() -> [FoodCategory]
-    func giveImageData(url: String, _ completion: @escaping (Data?) -> Void)
+    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
     func didTapFoodCategory(index: Int)
 }
 
@@ -25,24 +25,32 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Public Properties
 
     weak var view: MainViewProtocol?
-//    var router: RouterProtocol?
     var networkManager: NetworkManagerProtocol?
     var locationManager: LocationManagerProtocol?
+    var mapper: MapperProtocol
 
     // MARK: - Private Properties
 
-    private var foodCategories: [FoodCategory] = []
+    private var router: MainRouterProtocol?
+
+    private var foodCategories: [FoodCategory] = [] {
+        didSet {
+            view?.update(with: mapper.map(foodCategories))
+        }
+    }
 
     // MARK: - Initializers
 
     required init(
         view: MainViewProtocol,
-//        router: RouterProtocol,
+        mapper: MapperProtocol,
+        router: MainRouterProtocol,
         networkManager: NetworkManagerProtocol,
         locationManager: LocationManagerProtocol
     ) {
         self.view = view
-//        self.router = router
+        self.router = router
+        self.mapper = mapper
         self.networkManager = networkManager
         self.locationManager = locationManager
     }
@@ -50,45 +58,26 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Protocol Methods
 
     func viewDidLoad() {
-        fetchData { [weak self] in
-            DispatchQueue.main.async {
-                self?.view?.update()
-            }
-        }
+        getFoodCategoriesData()
         checkLocationAuthorization()
         updateLocationLabel()
     }
 
-    func giveFoodCategoriesData() -> [FoodCategory] {
-        returnFoodCategoriesData()
-    }
-
-    func giveImageData(url: String, _ completion: @escaping (Data?) -> Void) {
+    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void) {
         getImage(url: url, completion: completion)
     }
 
     func didTapFoodCategory(index: Int) {
+        guard index < foodCategories.count else { return }
+
         let foodCategory = foodCategories[index]
-//        router?.showDetailFoodCategory(foodCategory)
+
+        router?.openDetailFoodCategory(foodCategory)
     }
 
     // MARK: - Private Methods
-    private func fetchData(_ completion: @escaping () -> Void) {
-        let group = DispatchGroup()
-        group.enter()
-        getFoodCategoriesData {
-            group.leave()
-        }
-        group.enter()
-        getDishesData {
-            group.leave()
-        }
-        group.notify(queue: .main) {
-            completion()
-        }
-    }
 
-    private func getFoodCategoriesData(_ completion: @escaping () -> Void) {
+    private func getFoodCategoriesData() {
         networkManager?.loadDataModel(
             url: Const.Strings.urlFoodCategories
         ) { [weak self] (result: Result<FoodCategoriesModel?, Error>) in
@@ -103,35 +92,11 @@ class MainPresenter: MainPresenterProtocol {
                     self.view?.failure(error: error.localizedDescription)
                 }
             }
-            completion()
         }
     }
 
-    private func getDishesData(_ completion: @escaping () -> Void) {
-        networkManager?.loadDataModel(url: Const.Strings.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let dishes):
-                    if let data = dishes {
-                        for index in self.foodCategories.indices {
-                            self.foodCategories[index].dishes = data.dishes
-                        }
-                    }
-                case .failure(let error):
-                    self.view?.failure(error: error.localizedDescription)
-                }
-                completion()
-            }
-        }
-    }
-
-    private func returnFoodCategoriesData() -> [FoodCategory] {
-        return foodCategories
-    }
-
-    private func getImage(url: String, completion: @escaping (Data?) -> Void) {
-        networkManager?.loadImageData(urlText: url) { [weak self] result in
+    private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImageData(url: url) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

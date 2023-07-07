@@ -14,12 +14,10 @@ struct FoodCategoriesModel: Codable {
 struct FoodCategory: Codable {
     let id: Int
     let name: String
-    let imageURL: String?
-    var dishes: [Dish]?
+    let imageURL: URL?
 
     enum CodingKeys: String, CodingKey {
         case id, name
         case imageURL = "image_url"
-        case dishes
     }
 }

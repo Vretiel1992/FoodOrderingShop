@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol MainViewProtocol: AnyObject {
-    func update()
+    func update(with data: [MainTableViewCell.Model])
     func failure(error: String)
     func updateLocationLabel(text: String)
     func showLocationAccessDeniedAlert()
@@ -17,12 +17,19 @@ protocol MainViewProtocol: AnyObject {
 
 class MainViewController: UIViewController {
 
+    // MARK: - Types
+
+    private enum Constants {
+        static let defaultRowHeight: CGFloat = 156
+    }
+
     // MARK: - Public Properties
 
     var presenter: MainPresenterProtocol?
 
     // MARK: - Private Properties
 
+    private var categories: [MainTableViewCell.Model] = []
     private var foodCategoryImage: UIImage?
     private let topMainView = TopMainView()
     private let loadingView = LoadingView()
@@ -42,7 +49,7 @@ class MainViewController: UIViewController {
         tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = 156
+        tableView.estimatedRowHeight = Constants.defaultRowHeight
         tableView.separatorStyle = .none
         tableView.register(
             UITableViewCell.self,
@@ -113,7 +120,8 @@ class MainViewController: UIViewController {
 
 extension MainViewController: MainViewProtocol {
 
-    func update() {
+    func update(with data: [MainTableViewCell.Model]) {
+        categories = data
         loadingView.hide()
         tableView.reloadData()
         errorView.isHidden = true
@@ -164,7 +172,7 @@ extension MainViewController: MainViewProtocol {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter?.giveFoodCategoriesData().count ?? 0
+        categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -178,23 +186,21 @@ extension MainViewController: UITableViewDataSource {
             )
             return cell
         }
-        let foodCategories = presenter?.giveFoodCategoriesData() ?? []
-        if let urlToImage = foodCategories[indexPath.row].imageURL {
-            presenter?.giveImageData(url: urlToImage) { data in
-                guard let imageData = data else { return }
-                cell.setupImage(UIImage(data: imageData))
+
+        if indexPath.row < categories.count {
+            var category = categories[indexPath.row]
+            cell.configure(with: category)
+
+            if let urlToImage = category.foodCategoryImageURL {
+                presenter?.giveImageData(url: urlToImage) { data in
+                    guard let imageData = data else { return }
+
+                    category.foodCategoryImage = UIImage(data: imageData)
+                    cell.configure(with: category)
+                }
             }
         }
-        var categoryName = foodCategories[indexPath.row].name
-        if indexPath.row == 0 {
-            if let range = categoryName.range(of: " ") {
-                let firstWord = categoryName.prefix(upTo: range.lowerBound)
-                let remainingText = categoryName.suffix(from: range.upperBound)
-                let labelText = "\(firstWord)\n\(remainingText)"
-                categoryName = labelText
-            }
-        }
-        cell.setupText(categoryName)
+
         return cell
     }
 }
@@ -203,16 +209,10 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        156
+        Constants.defaultRowHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didTapFoodCategory(index: indexPath.row)
-        #warning("убрать")
-        if let foodCategories = presenter?.giveFoodCategoriesData() {
-            let foodCategory = foodCategories[indexPath.row]
-            let detailFoodCategoryVC = Assembly().createDetailFoodCategoryModule(foodCategory: foodCategory)
-            navigationController?.pushViewController(detailFoodCategoryVC, animated: true)
-        }
     }
 }

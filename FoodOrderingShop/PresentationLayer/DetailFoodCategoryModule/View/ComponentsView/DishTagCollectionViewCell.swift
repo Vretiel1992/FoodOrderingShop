@@ -50,10 +50,6 @@ class DishTagCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Public Methods
 
-    func configure(text: String) {
-        titleLabel.text = text
-    }
-
     func toggleSelection() {
         switch currentSelectionState {
         case .selected:
@@ -90,5 +86,18 @@ class DishTagCollectionViewCell: UICollectionViewCell {
                 UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
             )
         }
+    }
+}
+
+// MARK: - Configurable
+
+extension DishTagCollectionViewCell: Configurable {
+
+    struct Model {
+        let dishTagName: String
+    }
+
+    func configure(with model: Model) {
+        titleLabel.text = model.dishTagName
     }
 }

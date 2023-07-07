@@ -63,17 +63,6 @@ class DishCollectionViewCell: UICollectionViewCell {
         dishNameLabel.text = nil
     }
 
-    // MARK: - Public Methods
-
-    func setupImage(_ dishImage: UIImage?) {
-        guard let image = dishImage else { return }
-        dishImageView.image = image
-    }
-    
-    func setupName(_ dishName: String) {
-        dishNameLabel.text = dishName
-    }
-
     // MARK: - Private Methods
 
     private func setupViews() {
@@ -90,11 +79,28 @@ class DishCollectionViewCell: UICollectionViewCell {
         }
         backView.snp.makeConstraints { make in
             make.height.equalTo(109)
-            #warning("сделать высоту под ширину item")
-//            make.height.equalTo(contentView).multipliedBy(1)
         }
         dishImageView.snp.makeConstraints { make in
             make.edges.equalTo(backView).inset(15)
+        }
+    }
+}
+
+// MARK: - Configurable
+
+extension DishCollectionViewCell: Configurable {
+
+    struct Model {
+        let dishName: String
+        var dishImage: UIImage?
+        let dishImageURL: URL?
+    }
+
+    func configure(with model: Model) {
+        dishNameLabel.text = model.dishName
+
+        if let image = model.dishImage {
+            dishImageView.image = image
         }
     }
 }

@@ -35,8 +35,8 @@ enum Const {
                 }
             }
         }
-        static let urlFoodCategories = "https://run.mocky.io/v3/058729bd-1402-4578-88de-265481fd7d54"
-        static let urlDishes = "https://run.mocky.io/v3/aba7ecaa-0a70-453b-b62d-0e326c859b3b"
+        static let urlFoodCategories = URL(string: "https://run.mocky.io/v3/058729bd-1402-4578-88de-265481fd7d54")!
+        static let urlDishes = URL(string: "https://run.mocky.io/v3/aba7ecaa-0a70-453b-b62d-0e326c859b3b")!
         static let defaultCellIdentifier = "defaultCellIdentifier"
         static let mainCellIdentifier = "mainCellIdentifier"
         static let cityNotDefined = "Город не определен"

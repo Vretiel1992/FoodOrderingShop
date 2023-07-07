@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 
 protocol DetailFoodCategoryViewProtocol: AnyObject {
+    func update(
+        with dishTagData: [DishTagCollectionViewCell.Model],
+        with dishesData: [DishCollectionViewCell.Model]
+    )
     func failure(error: String)
 }
 
@@ -19,6 +23,9 @@ class DetailFoodCategoryViewController: UIViewController {
     var presenter: DetailFoodCategoryPresenterProtocol?
 
     // MARK: - Private Properties
+
+    private var dishTags: [DishTagCollectionViewCell.Model] = []
+    private var dishes: [DishCollectionViewCell.Model] = []
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -36,6 +43,8 @@ class DetailFoodCategoryViewController: UIViewController {
             UICollectionViewCell.self,
             forCellWithReuseIdentifier: Const.Strings.defaultCellIdentifier
         )
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
 
@@ -46,6 +55,7 @@ class DetailFoodCategoryViewController: UIViewController {
         setupViews()
         setupNavigationBar()
         setupConstraints()
+        presenter?.viewDidLoad()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +72,7 @@ class DetailFoodCategoryViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)
-        title = presenter?.giveFoodCategoryData().name
+        title = "Азиатская кухня"
         let imageButton = UIButton(type: .custom)
         imageButton.setImage(Const.Images.userPhoto, for: .normal)
         imageButton.isUserInteractionEnabled = false
@@ -80,6 +90,23 @@ class DetailFoodCategoryViewController: UIViewController {
                 UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             )
         }
+    }
+}
+
+// MARK: - DetailFoodCategoryViewProtocol
+
+extension DetailFoodCategoryViewController: DetailFoodCategoryViewProtocol {
+    func update(
+        with dishTagData: [DishTagCollectionViewCell.Model],
+        with dishesData: [DishCollectionViewCell.Model]
+    ) {
+        dishTags = dishTagData
+        dishes = dishesData
+        collectionView.reloadData()
+    }
+
+    func failure(error: String) {
+        print(error)
     }
 }
 
@@ -139,7 +166,6 @@ extension DetailFoodCategoryViewController {
                 let section = NSCollectionLayoutSection(group: nestedGroup)
                 section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
                 section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-//                section.interGroupSpacing = 12
                 return section
             }
         }
@@ -159,9 +185,9 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
     ) -> Int {
         switch section {
         case 0:
-            return Teg.allCases.count
+            return dishTags.count
         case 1:
-            return presenter?.giveFoodCategoryData().dishes?.count ?? 0
+            return dishes.count
         default:
             return 0
         }
@@ -171,6 +197,7 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+
         if indexPath.section == 0 {
             guard let item = collectionView.dequeueReusableCell(
                 withReuseIdentifier: Const.Strings.dishTagCellIdentifier,
@@ -182,8 +209,13 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
                 )
                 return item
             }
-            let dishTagName = Teg.allCases[indexPath.row].rawValue
-            item.configure(text: dishTagName)
+            if indexPath.row < dishTags.count {
+                let tags = dishTags[indexPath.row]
+                item.configure(with: tags)
+            }
+            if indexPath.row == 0 {
+                item.toggleSelection()
+            }
             return item
         } else {
             guard let item = collectionView.dequeueReusableCell(
@@ -196,14 +228,21 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
                 )
                 return item
             }
-            if let dish = presenter?.giveFoodCategoryData().dishes?[indexPath.row] {
-                item.setupName(dish.name)
-                let urlToImage = dish.imageURL
-                presenter?.giveImageData(url: urlToImage) { data in
-                    guard let imageData = data else { return }
-                    item.setupImage(UIImage(data: imageData))
+
+            if indexPath.row < dishes.count {
+                var dishes = self.dishes[indexPath.row]
+                item.configure(with: dishes)
+
+                if let urlToImage = dishes.dishImageURL {
+                    presenter?.giveImageData(url: urlToImage) { data in
+                        guard let imageData = data else { return }
+
+                        dishes.dishImage = UIImage(data: imageData)
+                        item.configure(with: dishes)
+                    }
                 }
             }
+
             return item
         }
     }
@@ -216,15 +255,5 @@ extension DetailFoodCategoryViewController: UICollectionViewDelegate {
         if let item = collectionView.cellForItem(at: indexPath) as? DishTagCollectionViewCell {
             item.toggleSelection()
         }
-        #warning("обратиться к презентеру")
-//        presenter?.didTapItem(indexPath: indexPath)
-    }
-}
-
-// MARK: - DetailFoodCategoryViewProtocol
-
-extension DetailFoodCategoryViewController: DetailFoodCategoryViewProtocol {
-    func failure(error: String) {
-        print(error)
     }
 }

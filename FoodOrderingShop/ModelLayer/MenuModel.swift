@@ -16,8 +16,8 @@ struct Dish: Codable {
     let name: String
     let price, weight: Int
     let description: String
-    let imageURL: String
-    let tegs: [Teg]
+    let imageURL: URL
+    let tegs: [String]
 
     enum CodingKeys: String, CodingKey {
         case id, name, price, weight, description
@@ -26,9 +26,33 @@ struct Dish: Codable {
     }
 }
 
-enum Teg: String, Codable, CaseIterable {
-    case allMenu = "Все меню"
-    case salads = "Салаты"
-    case withRice = "С рисом"
-    case withFish = "С рыбой"
+func processTegs(_ dishes: [Dish]) -> [Teg] {
+    var tags = Set<String>()
+    for dish in dishes {
+        for tag in dish.tegs {
+            tags.insert(tag)
+        }
+    }
+
+    var result: [Teg] = [.allMenu]
+    for tag in tags {
+        if tag == Teg.allMenu.string {
+            continue
+        }
+        result.append(.custom(tag))
+    }
+    result.sort { $0.string < $1.string }
+    return result
+}
+
+enum Teg {
+    case allMenu
+    case custom(String)
+
+    var string: String {
+        switch self {
+        case .allMenu: return "Все меню"
+        case let .custom(value): return value
+        }
+    }
 }

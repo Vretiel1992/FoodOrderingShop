@@ -8,8 +8,9 @@
 import Foundation
 
 protocol NetworkManagerProtocol {
-    func loadDataModel<T: Codable>(url: String, _ completion: @escaping (Result<T?, Error>) -> Void)
-    func loadImageData(urlText: String, _ completion: @escaping (Result<Data, Error>) -> Void)
+
+    func loadDataModel<T: Codable>(url: URL, _ completion: @escaping (Result<T?, Error>) -> Void)
+    func loadImageData(url: URL, _ completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 class NetworkManager: NetworkManagerProtocol {
@@ -33,8 +34,7 @@ class NetworkManager: NetworkManagerProtocol {
 
     // MARK: - Protocol Methods
 
-    func loadDataModel<T: Codable>(url: String, _ completion: @escaping (Result<T?, Error>) -> Void) {
-        guard let url = URL(string: url) else { return }
+    func loadDataModel<T: Codable>(url: URL, _ completion: @escaping (Result<T?, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 error.isNoInternetConnection
@@ -56,8 +56,7 @@ class NetworkManager: NetworkManagerProtocol {
         task.resume()
     }
 
-    func loadImageData(urlText: String, _ completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let url = URL(string: urlText) else { return }
+    func loadImageData(url: URL, _ completion: @escaping (Result<Data, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 error.isNoInternetConnection

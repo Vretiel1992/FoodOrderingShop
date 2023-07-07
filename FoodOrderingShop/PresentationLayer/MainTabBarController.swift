@@ -65,7 +65,7 @@ class MainTabBarController: UITabBarController {
         setViewControllers(controllers, animated: false)
     }
 
-    private func getController(for tab: Tabs) -> UIViewController {
+    private func getController(for tab: Tabs) -> Presentable {
         switch tab {
         case .main:
             return assembly.createMainModule()

@@ -10,11 +10,14 @@ import Foundation
 protocol MainPresenterProtocol: AnyObject {
     init(
         view: MainViewProtocol,
+        mapper: MapperProtocol,
+        router: MainRouterProtocol,
         networkManager: NetworkManagerProtocol,
         locationManager: LocationManagerProtocol
     )
     func viewDidLoad()
-    func giveImageData(url: String, completion: @escaping (Data?) -> Void)
+    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
+    func didTapFoodCategory(index: Int)
 }
 
 class MainPresenter: MainPresenterProtocol {
@@ -24,15 +27,30 @@ class MainPresenter: MainPresenterProtocol {
     weak var view: MainViewProtocol?
     var networkManager: NetworkManagerProtocol?
     var locationManager: LocationManagerProtocol?
+    var mapper: MapperProtocol
 
     // MARK: - Private Properties
 
-    private var foodCategories: [FoodСategory] = []
+    private var router: MainRouterProtocol?
+
+    private var foodCategories: [FoodCategory] = [] {
+        didSet {
+            view?.update(with: mapper.map(foodCategories))
+        }
+    }
 
     // MARK: - Initializers
 
-    required init(view: MainViewProtocol, networkManager: NetworkManagerProtocol, locationManager: LocationManagerProtocol) {
+    required init(
+        view: MainViewProtocol,
+        mapper: MapperProtocol,
+        router: MainRouterProtocol,
+        networkManager: NetworkManagerProtocol,
+        locationManager: LocationManagerProtocol
+    ) {
         self.view = view
+        self.router = router
+        self.mapper = mapper
         self.networkManager = networkManager
         self.locationManager = locationManager
     }
@@ -40,26 +58,35 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Protocol Methods
 
     func viewDidLoad() {
-        getDataOfFoodCategories()
+        getFoodCategoriesData()
         checkLocationAuthorization()
         updateLocationLabel()
     }
 
-    func giveImageData(url: String, completion: @escaping (Data?) -> Void) {
+    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void) {
         getImage(url: url, completion: completion)
+    }
+
+    func didTapFoodCategory(index: Int) {
+        guard index < foodCategories.count else { return }
+
+        let foodCategory = foodCategories[index]
+
+        router?.openDetailFoodCategory(foodCategory)
     }
 
     // MARK: - Private Methods
 
-    private func getDataOfFoodCategories() {
-        networkManager?.loadDataOfFoodCategories() { [weak self] result in
+    private func getFoodCategoriesData() {
+        networkManager?.loadDataModel(
+            url: Const.Strings.urlFoodCategories
+        ) { [weak self] (result: Result<FoodCategoriesModel?, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let dataOfFoodCategories):
                     if let data = dataOfFoodCategories {
                         self.foodCategories = data.сategories
-                        self.view?.success(dataOfFoodCategories: self.foodCategories)
                     }
                 case .failure(let error):
                     self.view?.failure(error: error.localizedDescription)
@@ -68,8 +95,8 @@ class MainPresenter: MainPresenterProtocol {
         }
     }
 
-    private func getImage(url: String, completion: @escaping (Data?) -> Void) {
-        networkManager?.loadImageData(urlText: url) { [weak self] result in
+    private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImageData(url: url) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
@@ -81,7 +108,7 @@ class MainPresenter: MainPresenterProtocol {
             }
         }
     }
-    
+
     private func checkLocationAuthorization() {
         locationManager?.setAuthorizationStatusHandler { [weak self] authorizationStatus in
             guard let self = self else { return }

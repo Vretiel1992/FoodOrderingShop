@@ -106,6 +106,7 @@ class TopMainView: UIView {
     private func getCurrentDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Const.Strings.dateFormat
+        dateFormatter.locale = Locale(identifier: Const.Strings.localIdentifier)
         let currentDate = Date()
         let formattedDate = dateFormatter.string(from: currentDate)
         return formattedDate

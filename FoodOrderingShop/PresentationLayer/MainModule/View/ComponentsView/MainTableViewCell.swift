@@ -8,6 +8,12 @@
 import UIKit
 import SnapKit
 
+protocol Configurable {
+    associatedtype Model
+
+    func configure(with model: Model)
+}
+
 class MainTableViewCell: UITableViewCell {
 
     // MARK: - Private Properties
@@ -55,20 +61,11 @@ class MainTableViewCell: UITableViewCell {
         foodCategoryNameLabel.text = nil
     }
 
-    // MARK: - Public Properties
-
-    func setupImage(_ foodCategoryImage: UIImage?) {
-        guard let image = foodCategoryImage else { return }
-        foodCategoryImageView.image = image
-    }
-    func setupText(_ foodCategoryName: String) {
-        foodCategoryNameLabel.text = foodCategoryName
-    }
-
     // MARK: - Private Methods
 
     private func setupViews() {
         selectionStyle = .none
+        contentView.backgroundColor = .white
         contentView.addSubview(separatorView)
         contentView.addSubview(foodCategoryImageView)
         foodCategoryImageView.addSubview(foodCategoryNameLabel)
@@ -88,6 +85,25 @@ class MainTableViewCell: UITableViewCell {
             make.top.equalTo(foodCategoryImageView).inset(12)
             make.leading.equalTo(foodCategoryImageView).inset(16)
             make.width.equalTo(foodCategoryImageView.snp.width).multipliedBy(0.5)
+        }
+    }
+}
+
+// MARK: - Configurable
+
+extension MainTableViewCell: Configurable {
+
+    struct Model {
+        let foodCategoryName: String
+        var foodCategoryImage: UIImage?
+        let foodCategoryImageURL: URL?
+    }
+
+    func configure(with model: Model) {
+        foodCategoryNameLabel.text = model.foodCategoryName
+
+        if let image =  model.foodCategoryImage {
+            foodCategoryImageView.image = image
         }
     }
 }

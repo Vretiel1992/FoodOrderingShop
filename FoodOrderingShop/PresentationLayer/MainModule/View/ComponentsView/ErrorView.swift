@@ -1,5 +1,5 @@
 //
-//  ErrorMainView.swift
+//  ErrorView.swift
 //  FoodOrderingShop
 //
 //  Created by Антон Денисюк on 04.07.2023.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ErrorMainView: UIView {
+class ErrorView: UIView {
 
     // MARK: - Public Properties
 
@@ -32,10 +32,10 @@ class ErrorMainView: UIView {
         config.baseForegroundColor = .white
         config.cornerStyle = .medium
         let attributeContainer = AttributeContainer([
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)
         ])
         config.attributedTitle = AttributedString(title, attributes: attributeContainer)
-        button.addAction(UIAction(handler: { [weak self] action in
+        button.addAction(UIAction(handler: { [weak self] _ in
             self?.updateView()
         }), for: .touchUpInside)
         button.configuration = config
@@ -45,6 +45,7 @@ class ErrorMainView: UIView {
     private let errorTextLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.numberOfLines = 0
         return label
@@ -71,7 +72,7 @@ class ErrorMainView: UIView {
     // MARK: - Private Methods
 
     private func setupViews() {
-        backgroundColor = Const.Colors.backgroundErrorMainView
+        backgroundColor = Const.Colors.backgroundErrorView
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray4.cgColor

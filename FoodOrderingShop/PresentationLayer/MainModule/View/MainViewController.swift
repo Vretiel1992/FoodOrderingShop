@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 protocol MainViewProtocol: AnyObject {
-    func success(dataOfFoodCategories: [FoodСategory])
-    func success(imageData: Data)
+    func update(with data: [MainTableViewCell.Model])
     func failure(error: String)
     func updateLocationLabel(text: String)
     func showLocationAccessDeniedAlert()
@@ -18,29 +17,39 @@ protocol MainViewProtocol: AnyObject {
 
 class MainViewController: UIViewController {
 
+    // MARK: - Types
+
+    private enum Constants {
+        static let defaultRowHeight: CGFloat = 156
+    }
+
     // MARK: - Public Properties
 
     var presenter: MainPresenterProtocol?
 
     // MARK: - Private Properties
 
-    private var foodCategories: [FoodСategory] = []
+    private var categories: [MainTableViewCell.Model] = []
     private var foodCategoryImage: UIImage?
     private let topMainView = TopMainView()
+    private let loadingView = LoadingView()
 
-    private lazy var errorMainView: ErrorMainView = {
-        let view = ErrorMainView()
+    private lazy var errorView: ErrorView = {
+        let view = ErrorView()
         view.didTapUpdateViewButton = { [weak self] in
-            self?.presenter?.viewDidLoad()
+            guard let self = self else { return }
+            self.loadingView.show()
+            self.presenter?.viewDidLoad()
         }
         return view
     }()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
+        tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = 148
+        tableView.estimatedRowHeight = Constants.defaultRowHeight
         tableView.separatorStyle = .none
         tableView.register(
             UITableViewCell.self,
@@ -58,18 +67,34 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        configureNavigationBar()
         setupConstraints()
+        loadingView.show()
         presenter?.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideNavigationBar()
     }
 
     // MARK: - Private Methods
 
     private func setupViews() {
         view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
         view.addSubview(topMainView)
         view.addSubview(tableView)
-        view.addSubview(errorMainView)
+        view.addSubview(loadingView)
+        view.addSubview(errorView)
+    }
+
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.backButtonTitle = Const.Strings.empty
+    }
+
+    private func hideNavigationBar() {
+        navigationController?.navigationBar.isHidden.toggle()
     }
 
     private func setupConstraints() {
@@ -80,7 +105,11 @@ class MainViewController: UIViewController {
             make.top.equalTo(topMainView.snp.bottom)
             make.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        errorMainView.snp.makeConstraints { make in
+        loadingView.snp.makeConstraints { make in
+            make.center.equalTo(view)
+            make.width.equalTo(160)
+        }
+        errorView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view).inset(50)
             make.centerY.equalTo(view)
         }
@@ -91,22 +120,20 @@ class MainViewController: UIViewController {
 
 extension MainViewController: MainViewProtocol {
 
-    func success(dataOfFoodCategories: [FoodСategory]) {
-        foodCategories = dataOfFoodCategories
+    func update(with data: [MainTableViewCell.Model]) {
+        categories = data
+        loadingView.hide()
         tableView.reloadData()
-        errorMainView.isHidden = true
+        errorView.isHidden = true
         topMainView.isHidden = false
         tableView.isHidden = false
         tabBarController?.tabBar.isHidden = false
     }
 
-    func success(imageData: Data) {
-        self.foodCategoryImage = UIImage(data: imageData)
-    }
-
     func failure(error: String) {
-        errorMainView.updateErrorTextLabel(text: error)
-        errorMainView.isHidden = false
+        errorView.updateErrorTextLabel(text: error)
+        loadingView.hide()
+        errorView.isHidden = false
         topMainView.isHidden = true
         tableView.isHidden = true
         tabBarController?.tabBar.isHidden = true
@@ -114,19 +141,25 @@ extension MainViewController: MainViewProtocol {
 
     func showLocationAccessDeniedAlert() {
         let alert = UIAlertController(
-            title: "Доступ к геолокации запрещен",
-            message: "Для определения вашего местоположения необходимо включить доступ к геолокации в настройках приложения.",
+            title: Const.Strings.locationAlertTitle,
+            message: Const.Strings.locationAlertMessage,
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Настройки", style: .default) { _ in
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
+        alert.addAction(UIAlertAction(
+            title: Const.Strings.settingButton,
+            style: .default
+        ) { _ in
+            guard let settingsURL = URL(
+                string: UIApplication.openSettingsURLString
+            ) else { return }
             if UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.open(settingsURL)
             }
         })
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(
+            title: Const.Strings.cancelButton,
+            style: .cancel
+        ))
         present(alert, animated: true)
     }
 
@@ -139,7 +172,7 @@ extension MainViewController: MainViewProtocol {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        foodCategories.count
+        categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,22 +186,21 @@ extension MainViewController: UITableViewDataSource {
             )
             return cell
         }
-        if let urlToImage = foodCategories[indexPath.row].imageURL {
-            presenter?.giveImageData(url: urlToImage) { data in
-                guard let imageData = data else { return }
-                cell.setupImage(UIImage(data: imageData))
+
+        if indexPath.row < categories.count {
+            var category = categories[indexPath.row]
+            cell.configure(with: category)
+
+            if let urlToImage = category.foodCategoryImageURL {
+                presenter?.giveImageData(url: urlToImage) { data in
+                    guard let imageData = data else { return }
+
+                    category.foodCategoryImage = UIImage(data: imageData)
+                    cell.configure(with: category)
+                }
             }
         }
-        var categoryName = foodCategories[indexPath.row].name
-        if indexPath.row == 0 {
-            if let range = categoryName.range(of: " ") {
-                let firstWord = categoryName.prefix(upTo: range.lowerBound)
-                let remainingText = categoryName.suffix(from: range.upperBound)
-                let labelText = "\(firstWord)\n\(remainingText)"
-                categoryName = labelText
-            }
-        }
-        cell.setupText(categoryName)
+
         return cell
     }
 }
@@ -177,10 +209,10 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        156
+        Constants.defaultRowHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        presenter?.didTapFoodCategory(index: indexPath.row)
     }
 }

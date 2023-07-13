@@ -11,6 +11,9 @@
 		E438D24F2A55705700D96754 /* DetailFoodCategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438D24E2A55705700D96754 /* DetailFoodCategoryPresenter.swift */; };
 		E438D2512A55802D00D96754 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438D2502A55802D00D96754 /* MenuModel.swift */; };
 		E438D2532A55B31A00D96754 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438D2522A55B31A00D96754 /* LoadingView.swift */; };
+		E445DF9B2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9A2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift */; };
+		E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */; };
+		E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9F2A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift */; };
 		E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */; };
 		E4C3151A2A51699D007949FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315192A51699D007949FE /* AppDelegate.swift */; };
 		E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3151B2A51699D007949FE /* SceneDelegate.swift */; };
@@ -46,6 +49,9 @@
 		E438D24E2A55705700D96754 /* DetailFoodCategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFoodCategoryPresenter.swift; sourceTree = "<group>"; };
 		E438D2502A55802D00D96754 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		E438D2522A55B31A00D96754 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		E445DF9A2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDetailFoodCategoryView.swift; sourceTree = "<group>"; };
+		E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		E445DF9F2A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFoodCategoryRouter.swift; sourceTree = "<group>"; };
 		E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		E4C315162A51699D007949FE /* FoodOrderingShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodOrderingShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C315192A51699D007949FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +112,7 @@
 		E438D2482A556FB200D96754 /* DetailFoodCategoryModule */ = {
 			isa = PBXGroup;
 			children = (
+				E445DF9E2A5ECB5E002A2B3A /* Router */,
 				E438D24A2A55700100D96754 /* View */,
 				E438D24B2A55700800D96754 /* Presenter */,
 			);
@@ -127,6 +134,14 @@
 				E438D24E2A55705700D96754 /* DetailFoodCategoryPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		E445DF9E2A5ECB5E002A2B3A /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				E445DF9F2A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		E4C3150D2A51699D007949FE = {
@@ -308,6 +323,7 @@
 			children = (
 				E4C315492A518BC1007949FE /* UIColor+.swift */,
 				E4C3155C2A520AEB007949FE /* Error+.swift */,
+				E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -335,6 +351,7 @@
 		E4FAF0282A56E65800EB963E /* ComponentsView */ = {
 			isa = PBXGroup;
 			children = (
+				E445DF9A2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift */,
 				E4FAF0292A56F1F000EB963E /* DishTagCollectionViewCell.swift */,
 				E4FAF02B2A56FE5C00EB963E /* DishCollectionViewCell.swift */,
 			);
@@ -490,14 +507,17 @@
 				E438D2512A55802D00D96754 /* MenuModel.swift in Sources */,
 				E4C3151A2A51699D007949FE /* AppDelegate.swift in Sources */,
 				E438D24F2A55705700D96754 /* DetailFoodCategoryPresenter.swift in Sources */,
+				E445DF9B2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift in Sources */,
 				E4C315592A51FF2C007949FE /* NetworkManager.swift in Sources */,
 				E4C315462A518B00007949FE /* Const.swift in Sources */,
 				E4C315612A52EB70007949FE /* MainTableViewCell.swift in Sources */,
 				E4C315442A518A88007949FE /* MainTabBarController.swift in Sources */,
+				E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */,
 				E4FAF0312A581F2A00EB963E /* Mapper.swift in Sources */,
 				E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */,
 				E4C3154E2A51B7C8007949FE /* BasketViewController.swift in Sources */,
 				E4C3155F2A52E597007949FE /* Assembly.swift in Sources */,
+				E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */,
 				E4C3154A2A518BC1007949FE /* UIColor+.swift in Sources */,
 				E4C315552A51F9FC007949FE /* MainPresenter.swift in Sources */,
 				E4C3155B2A51FF47007949FE /* LocationManager.swift in Sources */,

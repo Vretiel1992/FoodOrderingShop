@@ -11,17 +11,31 @@ protocol MapperProtocol {
     func map(_ categories: [FoodCategory]) -> [MainTableViewCell.Model]
     func map(_ dishTags: [Teg]) -> [DishTagCollectionViewCell.Model]
     func map(_ dishes: [Dish]) -> [DishCollectionViewCell.Model]
+    func map(_ currentTag: Teg, _ dishes: [Dish]) -> [DishCollectionViewCell.Model]
 }
 
 class Mapper: MapperProtocol {
     func map(_ categories: [FoodCategory]) -> [MainTableViewCell.Model] {
         categories.map {
-            MainTableViewCell.Model(
-                foodCategoryName: $0.name,
+            var categoryName: String
+            if $0.name == "Пекарни и кондитерское",
+               let range = $0.name.range(of: " ") {
+                let firstWord = $0.name.prefix(upTo: range.lowerBound)
+                let remainingText = $0.name.suffix(from: range.upperBound)
+                categoryName = "\(firstWord)\n\(remainingText)"
+            } else {
+                categoryName = $0.name
+            }
+
+            let cellData = MainTableViewCell.Model(
+                foodCategoryName: categoryName,
                 foodCategoryImageURL: $0.imageURL
             )
+
+            return cellData
         }
     }
+
     func map(_ dishTags: [Teg]) -> [DishTagCollectionViewCell.Model] {
         dishTags.map {
             DishTagCollectionViewCell.Model(dishTagName: $0.string)
@@ -34,6 +48,17 @@ class Mapper: MapperProtocol {
                 dishName: $0.name,
                 dishImageURL: $0.imageURL
             )
+        }
+    }
+
+    func map(_ currentTag: Teg, _ dishes: [Dish]) -> [DishCollectionViewCell.Model] {
+        dishes.compactMap {
+            guard $0.tegs.contains(currentTag.string) else { return nil }
+            let itemData = DishCollectionViewCell.Model(
+                dishName: $0.name,
+                dishImageURL: $0.imageURL
+            )
+            return itemData
         }
     }
 }

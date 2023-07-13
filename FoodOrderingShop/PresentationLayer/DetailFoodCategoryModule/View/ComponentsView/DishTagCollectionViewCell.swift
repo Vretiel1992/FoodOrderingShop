@@ -23,7 +23,7 @@ class DishTagCollectionViewCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -71,6 +71,7 @@ class DishTagCollectionViewCell: UICollectionViewCell {
             currentSelectionState = .notSelected
         }
     }
+
     // MARK: - Private Methods
 
     private func setupViews() {
@@ -98,6 +99,13 @@ extension DishTagCollectionViewCell: Configurable {
     }
 
     func configure(with model: Model) {
-        titleLabel.text = model.dishTagName
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 0.88
+        let attributes: [NSAttributedString.Key: Any] = [
+            .kern: -0.4,
+            .paragraphStyle: paragraphStyle
+        ]
+        let attributedString = NSAttributedString(string: model.dishTagName, attributes: attributes)
+        titleLabel.attributedText = attributedString
     }
 }

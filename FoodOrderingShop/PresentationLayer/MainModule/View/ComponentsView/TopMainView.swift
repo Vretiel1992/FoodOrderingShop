@@ -13,18 +13,10 @@ class TopMainView: UIView {
 
     // MARK: - Private Properties
 
-    private let hStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 4
-        return stackView
-    }()
-
     private let vStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 4
-        stackView.distribution = .fillEqually
         stackView.alignment = .leading
         return stackView
     }()
@@ -45,7 +37,11 @@ class TopMainView: UIView {
 
     private let locationLabel: UILabel = {
         let label = UILabel()
-        label.text = Const.Strings.cityNotDefined
+        label.setTextAttributes(
+            text: Const.Strings.cityNotDefined,
+            lineHeightMultiple: 1.01,
+            kern: -0.4
+        )
         label.textAlignment = .left
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -55,7 +51,12 @@ class TopMainView: UIView {
 
     private lazy var currentDateLabel: UILabel = {
         let label = UILabel()
-        label.text = getCurrentDate()
+        let text = getCurrentDate()
+        label.setTextAttributes(
+            text: text,
+            lineHeightMultiple: 0.96,
+            kern: -0.4
+        )
         label.textAlignment = .left
         label.textColor = .black.withAlphaComponent(0.5)
         label.font = UIFont.systemFont(ofSize: 14)
@@ -84,21 +85,28 @@ class TopMainView: UIView {
     // MARK: - Private Methods
 
     private func setupViews() {
-        addSubview(hStackView)
-        hStackView.addArrangedSubview(locationIconImageView)
-        hStackView.addArrangedSubview(vStackView)
-        hStackView.addArrangedSubview(userPhotoImageView)
+        addSubview(locationIconImageView)
+        addSubview(userPhotoImageView)
+        addSubview(vStackView)
         vStackView.addArrangedSubview(locationLabel)
         vStackView.addArrangedSubview(currentDateLabel)
+
     }
 
     private func setupConstraints() {
-        hStackView.snp.makeConstraints { make in
-            make.edges.equalTo(self).inset(
-                UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
-            )
+        locationIconImageView.snp.makeConstraints { make in
+            make.top.equalTo(self).inset(10)
+            make.leading.equalTo(self).inset(16)
+            make.height.width.equalTo(24)
+        }
+        vStackView.snp.makeConstraints { make in
+            make.top.equalTo(self).inset(8)
+            make.leading.equalTo(locationIconImageView.snp.trailing).offset(4)
+            make.height.equalTo(42)
         }
         userPhotoImageView.snp.makeConstraints { make in
+            make.top.equalTo(self).inset(7)
+            make.trailing.equalTo(self).inset(16)
             make.width.height.equalTo(44)
         }
     }

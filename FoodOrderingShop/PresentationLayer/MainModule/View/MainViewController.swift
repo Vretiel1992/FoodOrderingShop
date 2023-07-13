@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
         view.didTapUpdateViewButton = { [weak self] in
             guard let self = self else { return }
             self.loadingView.show()
-            self.presenter?.viewDidLoad()
+            self.presenter?.didTapUpdateViewButton()
         }
         return view
     }()
@@ -73,11 +73,6 @@ class MainViewController: UIViewController {
         presenter?.viewDidLoad()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        hideNavigationBar()
-    }
-
     // MARK: - Private Methods
 
     private func setupViews() {
@@ -89,17 +84,13 @@ class MainViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        navigationController?.navigationBar.tintColor = .black
-        navigationItem.backButtonTitle = Const.Strings.empty
-    }
-
-    private func hideNavigationBar() {
-        navigationController?.navigationBar.isHidden.toggle()
+        navigationController?.navigationBar.isHidden = true
     }
 
     private func setupConstraints() {
         topMainView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(57)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(topMainView.snp.bottom)
@@ -200,7 +191,6 @@ extension MainViewController: UITableViewDataSource {
                 }
             }
         }
-
         return cell
     }
 }

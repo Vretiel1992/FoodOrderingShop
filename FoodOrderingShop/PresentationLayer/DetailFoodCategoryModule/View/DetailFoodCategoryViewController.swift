@@ -10,8 +10,13 @@ import SnapKit
 
 protocol DetailFoodCategoryViewProtocol: AnyObject {
     func update(
-        with dishTagData: [DishTagCollectionViewCell.Model],
-        with dishesData: [DishCollectionViewCell.Model]
+        _ dishTagData: [DishTagCollectionViewCell.Model],
+        _ dishesData: [DishCollectionViewCell.Model]
+    )
+    func update(
+        _ itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath),
+        _ sectionIndex: Int,
+        _ dishesData: [DishCollectionViewCell.Model]
     )
     func failure(error: String)
 }
@@ -27,8 +32,17 @@ class DetailFoodCategoryViewController: UIViewController {
     private var dishTags: [DishTagCollectionViewCell.Model] = []
     private var dishes: [DishCollectionViewCell.Model] = []
 
+    private lazy var topView: TopDetailFoodCategoryView = {
+        let view = TopDetailFoodCategoryView()
+        view.didTapBackButton = { [weak self] in
+            self?.presenter?.didTapBackButton()
+        }
+        return view
+    }()
+
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(
@@ -53,42 +67,26 @@ class DetailFoodCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupNavigationBar()
         setupConstraints()
         presenter?.viewDidLoad()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        hideNavigationBar()
     }
 
     // MARK: - Private Methods
 
     private func setupViews() {
         view.backgroundColor = .white
+        view.addSubview(topView)
         view.addSubview(collectionView)
     }
 
-    private func setupNavigationBar() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        title = "Азиатская кухня"
-        let imageButton = UIButton(type: .custom)
-        imageButton.setImage(Const.Images.userPhoto, for: .normal)
-        imageButton.isUserInteractionEnabled = false
-        let barButtonItem = UIBarButtonItem(customView: imageButton)
-        navigationItem.rightBarButtonItem = barButtonItem
-    }
-
-    private func hideNavigationBar() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
     private func setupConstraints() {
+        topView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(57)
+        }
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide).inset(
-                UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-            )
+            make.top.equalTo(topView.snp.bottom).offset(8)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
@@ -97,8 +95,8 @@ class DetailFoodCategoryViewController: UIViewController {
 
 extension DetailFoodCategoryViewController: DetailFoodCategoryViewProtocol {
     func update(
-        with dishTagData: [DishTagCollectionViewCell.Model],
-        with dishesData: [DishCollectionViewCell.Model]
+        _ dishTagData: [DishTagCollectionViewCell.Model],
+        _ dishesData: [DishCollectionViewCell.Model]
     ) {
         dishTags = dishTagData
         dishes = dishesData
@@ -108,13 +106,31 @@ extension DetailFoodCategoryViewController: DetailFoodCategoryViewProtocol {
     func failure(error: String) {
         print(error)
     }
+
+    func update(
+        _ itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath),
+        _ sectionIndex: Int,
+        _ dishesData: [DishCollectionViewCell.Model]
+    ) {
+        if let item = collectionView.cellForItem(at: itemIndexPaths.activeItem) as? DishTagCollectionViewCell {
+            item.toggleSelection()
+        }
+
+        if let item = collectionView.cellForItem(at: itemIndexPaths.currentItem) as? DishTagCollectionViewCell {
+            item.toggleSelection()
+        }
+        dishes = dishesData
+        collectionView.reloadSections(
+            IndexSet(integer: sectionIndex)
+        )
+    }
 }
 
 // MARK: - UICollectionViewCompositionalLayout
 
 extension DetailFoodCategoryViewController {
     private func createLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { sectionIndex, _ in
+        UICollectionViewCompositionalLayout { sectionIndex, _  in
             if sectionIndex == 0 {
                 let item = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
@@ -130,42 +146,35 @@ extension DetailFoodCategoryViewController {
                     ),
                     subitems: [item]
                 )
+
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
-                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 16, trailing: 0)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
                 section.interGroupSpacing = 8
                 return section
             } else {
+                let numberOfItemsInRow: Int = 3
+
                 let item = NSCollectionLayoutItem(
                     layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .estimated(109),
+                        widthDimension: .fractionalWidth(1),
                         heightDimension: .estimated(144)
                     )
                 )
 
-                let verticalGroup = NSCollectionLayoutGroup.horizontal(
+                let group = NSCollectionLayoutGroup.horizontal(
                     layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .absolute(self.collectionView.bounds.width),
-                        heightDimension: .estimated(144)
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .absolute(144)
                     ),
                     subitem: item,
-                    count: 3
+                    count: numberOfItemsInRow
                 )
-                verticalGroup.interItemSpacing = .fixed(8)
+                group.interItemSpacing = .fixed(8)
 
-                let nestedGroup = NSCollectionLayoutGroup.vertical(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .estimated(self.collectionView.bounds.width),
-                        heightDimension: .estimated(618)
-                    ),
-                    subitem: verticalGroup,
-                    count: 4
-                )
-                nestedGroup.interItemSpacing = .fixed(14)
-
-                let section = NSCollectionLayoutSection(group: nestedGroup)
-                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 14
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
                 return section
             }
         }
@@ -209,13 +218,17 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
                 )
                 return item
             }
+
             if indexPath.row < dishTags.count {
                 let tags = dishTags[indexPath.row]
                 item.configure(with: tags)
+                if let indexPathOfSelectedItem = presenter?.whichItemToSelect() {
+                    if indexPath == indexPathOfSelectedItem {
+                        item.toggleSelection()
+                    }
+                }
             }
-            if indexPath.row == 0 {
-                item.toggleSelection()
-            }
+
             return item
         } else {
             guard let item = collectionView.dequeueReusableCell(
@@ -252,8 +265,13 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
 
 extension DetailFoodCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let item = collectionView.cellForItem(at: indexPath) as? DishTagCollectionViewCell {
-            item.toggleSelection()
+        switch indexPath.section {
+        case 0:
+            presenter?.didTapDishTag(indexPath)
+        case 1:
+            presenter?.didTapDish(indexPath.row)
+        default:
+            break
         }
     }
 }

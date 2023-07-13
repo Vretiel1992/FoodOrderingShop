@@ -12,10 +12,15 @@ protocol DetailFoodCategoryPresenterProtocol: AnyObject {
         view: DetailFoodCategoryViewProtocol,
         networkManager: NetworkManagerProtocol,
         mapper: MapperProtocol,
+        router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory
     )
     func viewDidLoad()
     func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
+    func didTapBackButton()
+    func didTapDishTag(_ indexPath: IndexPath)
+    func whichItemToSelect() -> IndexPath
+    func didTapDish(_ index: Int)
 }
 
 class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
@@ -25,6 +30,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     weak var view: DetailFoodCategoryViewProtocol?
     var networkManager: NetworkManagerProtocol?
     var mapper: MapperProtocol
+    var router: DetailFoodCategoryRouterProtocol?
     let foodCategory: FoodCategory
 
     // MARK: - Private Properties
@@ -32,11 +38,25 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     private var dishes: [Dish] = [] {
         didSet {
             view?.update(
-                with: mapper.map(processTegs(dishes)),
-                with: mapper.map(dishes)
+                mapper.map(dishTags),
+                mapper.map(dishes)
             )
         }
     }
+
+    private var dishTags: [Teg] = []
+
+    private var currentTag: Teg = .allMenu {
+        didSet {
+            let sectionToUpdate = 1
+            view?.update(itemIndexPaths, sectionToUpdate, mapper.map(currentTag, dishes))
+        }
+    }
+
+    private var itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath) = (
+        activeItem: IndexPath(item: 0, section: 0),
+        currentItem: IndexPath(item: 0, section: 0)
+    )
 
     // MARK: - Initializers
 
@@ -44,10 +64,12 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
         view: DetailFoodCategoryViewProtocol,
         networkManager: NetworkManagerProtocol,
         mapper: MapperProtocol,
+        router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory) {
             self.view = view
             self.networkManager = networkManager
             self.mapper = mapper
+            self.router = router
             self.foodCategory = foodCategory
         }
 
@@ -61,6 +83,27 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
         getImage(url: url, completion: completion)
     }
 
+    func didTapBackButton() {
+        router?.popToMain()
+    }
+
+    func didTapDishTag(_ indexPath: IndexPath) {
+        guard indexPath.row < dishTags.count else { return }
+        itemIndexPaths.activeItem = itemIndexPaths.currentItem
+        itemIndexPaths.currentItem = indexPath
+        currentTag = dishTags[indexPath.row]
+    }
+
+    func whichItemToSelect() -> IndexPath {
+        return itemIndexPaths.currentItem
+    }
+
+    func didTapDish(_ index: Int) {
+//        guard index < dishes.count else { return }
+//        let dish = dishes[index]
+//        router?.openDetailDish(dish)
+    }
+
     // MARK: - Private Methods
 
     private func getDishesData() {
@@ -70,6 +113,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
                 switch result {
                 case .success(let dishes):
                     if let data = dishes {
+                        self.dishTags = processTegs(data.dishes)
                         self.dishes = data.dishes
                     }
                 case .failure(let error):

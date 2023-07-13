@@ -36,7 +36,7 @@ class ErrorView: UIView {
         ])
         config.attributedTitle = AttributedString(title, attributes: attributeContainer)
         button.addAction(UIAction(handler: { [weak self] _ in
-            self?.updateView()
+            self?.didTapUpdateViewButton?()
         }), for: .touchUpInside)
         button.configuration = config
         return button
@@ -89,9 +89,5 @@ class ErrorView: UIView {
         updateViewButton.snp.makeConstraints { make in
             make.height.equalTo(48)
         }
-    }
-
-    private func updateView() {
-        didTapUpdateViewButton?()
     }
 }

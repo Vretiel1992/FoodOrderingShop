@@ -18,6 +18,7 @@ protocol MainPresenterProtocol: AnyObject {
     func viewDidLoad()
     func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
     func didTapFoodCategory(index: Int)
+    func didTapUpdateViewButton()
 }
 
 class MainPresenter: MainPresenterProtocol {
@@ -69,10 +70,12 @@ class MainPresenter: MainPresenterProtocol {
 
     func didTapFoodCategory(index: Int) {
         guard index < foodCategories.count else { return }
-
         let foodCategory = foodCategories[index]
-
         router?.openDetailFoodCategory(foodCategory)
+    }
+
+    func didTapUpdateViewButton() {
+        viewDidLoad()
     }
 
     // MARK: - Private Methods

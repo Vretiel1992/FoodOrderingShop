@@ -33,15 +33,19 @@ func processTegs(_ dishes: [Dish]) -> [Teg] {
             tags.insert(tag)
         }
     }
+    let sortedTags = tags.sorted()
 
     var result: [Teg] = [.allMenu]
-    for tag in tags {
-        if tag == Teg.allMenu.string {
+    for tag in sortedTags {
+        switch tag {
+        case Teg.allMenu.string:
             continue
+        case "Салаты":
+            result.insert(.custom(tag), at: 1)
+        default:
+            result.append(.custom(tag))
         }
-        result.append(.custom(tag))
     }
-    result.sort { $0.string < $1.string }
     return result
 }
 

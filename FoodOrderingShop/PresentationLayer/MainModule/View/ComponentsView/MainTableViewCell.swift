@@ -84,7 +84,6 @@ class MainTableViewCell: UITableViewCell {
         foodCategoryNameLabel.snp.makeConstraints { make in
             make.top.equalTo(foodCategoryImageView).inset(12)
             make.leading.equalTo(foodCategoryImageView).inset(16)
-            make.width.equalTo(foodCategoryImageView.snp.width).multipliedBy(0.5)
         }
     }
 }
@@ -100,7 +99,11 @@ extension MainTableViewCell: Configurable {
     }
 
     func configure(with model: Model) {
-        foodCategoryNameLabel.text = model.foodCategoryName
+        foodCategoryNameLabel.setTextAttributes(
+            text: model.foodCategoryName,
+            lineHeightMultiple: 1.05,
+            kern: -0.1
+        )
 
         if let image =  model.foodCategoryImage {
             foodCategoryImageView.image = image

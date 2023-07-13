@@ -16,7 +16,6 @@ class DishCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
-        stackView.alignment = .fill
         return stackView
     }()
 
@@ -37,9 +36,9 @@ class DishCollectionViewCell: UICollectionViewCell {
     private let dishNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textAlignment = .left
-        label.lineBreakMode = .byCharWrapping
+        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
         return label
     }()
@@ -97,7 +96,14 @@ extension DishCollectionViewCell: Configurable {
     }
 
     func configure(with model: Model) {
-        dishNameLabel.text = model.dishName
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 0.88
+        let attributes: [NSAttributedString.Key: Any] = [
+            .kern: -0.4,
+            .paragraphStyle: paragraphStyle
+        ]
+        let attributedString = NSAttributedString(string: model.dishName, attributes: attributes)
+        dishNameLabel.attributedText = attributedString
 
         if let image = model.dishImage {
             dishImageView.image = image

@@ -12,6 +12,7 @@ protocol MapperProtocol {
     func map(_ dishTags: [Teg]) -> [DishTagCollectionViewCell.Model]
     func map(_ dishes: [Dish]) -> [DishCollectionViewCell.Model]
     func map(_ currentTag: Teg, _ dishes: [Dish]) -> [DishCollectionViewCell.Model]
+    func convert(_ selectedDish: Dish) -> DishView.Model
 }
 
 class Mapper: MapperProtocol {
@@ -60,5 +61,15 @@ class Mapper: MapperProtocol {
             )
             return itemData
         }
+    }
+
+    func convert(_ selectedDish: Dish) -> DishView.Model {
+        DishView.Model(
+            dishImageURL: selectedDish.imageURL,
+            dishName: selectedDish.name,
+            dishPrice: selectedDish.price,
+            dishWeight: selectedDish.weight,
+            dishDescription: selectedDish.description
+        )
     }
 }

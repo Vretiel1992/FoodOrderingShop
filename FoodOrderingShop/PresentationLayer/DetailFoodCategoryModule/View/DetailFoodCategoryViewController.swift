@@ -243,15 +243,15 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
             }
 
             if indexPath.row < dishes.count {
-                var dishes = self.dishes[indexPath.row]
-                item.configure(with: dishes)
+                var dish = self.dishes[indexPath.row]
+                item.configure(with: dish)
 
-                if let urlToImage = dishes.dishImageURL {
+                if let urlToImage = dish.dishImageURL {
                     presenter?.giveImageData(url: urlToImage) { data in
                         guard let imageData = data else { return }
 
-                        dishes.dishImage = UIImage(data: imageData)
-                        item.configure(with: dishes)
+                        dish.dishImage = UIImage(data: imageData)
+                        item.configure(with: dish)
                     }
                 }
             }

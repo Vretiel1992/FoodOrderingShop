@@ -16,7 +16,7 @@ typealias DetailFoodCategoryModule = DetailFoodCategoryPresenterProtocol
 protocol AssemblyProtocol {
     func createMainModule() -> Presentable
     func createDetailFoodCategoryModule(foodCategory: FoodCategory) -> Presentable
-//    func createDetailDishModule(dish: Dish) -> Presentable
+    func createDetailDishModule(dish: Dish) -> Presentable
 }
 
 class Assembly: AssemblyProtocol {
@@ -53,15 +53,19 @@ class Assembly: AssemblyProtocol {
         return view
     }
 
-//    func createDetailDishModule(dish: Dish) -> Presentable {
-//        let view = DetailDishViewController()
-//        let networkManager = NetworkManager()
-//        let presenter = DetailDishPresenter(
-//            view: view,
-//            networkManager: networkManager,
-//            dish: dish
-//        )
-//        view.presenter = presenter
-//        return view
-//    }
+    func createDetailDishModule(dish: Dish) -> Presentable {
+        let view = DetailDishViewController()
+        let networkManager = NetworkManager()
+        let mapper = Mapper()
+        let router = DetailDishRouter(view: view)
+        let presenter = DetailDishPresenter(
+            view: view,
+            networkManager: networkManager,
+            mapper: mapper,
+            router: router,
+            dish: dish
+        )
+        view.presenter = presenter
+        return view
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 protocol DetailFoodCategoryRouterProtocol {
     func popToMain()
-//    func openDetailDish(_ dish: Dish)
+    func openDetailDish(_ dish: Dish)
 }
 
 class DetailFoodCategoryRouter: DetailFoodCategoryRouterProtocol {
@@ -32,12 +32,12 @@ class DetailFoodCategoryRouter: DetailFoodCategoryRouterProtocol {
         view?.navigationController?.popViewController(animated: true)
     }
 
-//    func openDetailDish(_ dish: Dish) {
-//        let presentable = assembly.createDetailDishModule(
-//            dish: dish
-//        )
-//
-//        presentable.modalPresentationStyle = .overFullScreen
-//        view?.present(presentable, animated: false)
-//    }
+    func openDetailDish(_ dish: Dish) {
+        let presentable = assembly.createDetailDishModule(
+            dish: dish
+        )
+
+        presentable.modalPresentationStyle = .overFullScreen
+        view?.present(presentable, animated: false)
+    }
 }

@@ -14,6 +14,11 @@
 		E445DF9B2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9A2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift */; };
 		E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */; };
 		E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DF9F2A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift */; };
+		E445DFB02A60483D002A2B3A /* DetailDishPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DFAD2A60483D002A2B3A /* DetailDishPresenter.swift */; };
+		E445DFB12A60483D002A2B3A /* DetailDishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DFAF2A60483D002A2B3A /* DetailDishViewController.swift */; };
+		E445DFB32A605D63002A2B3A /* DetailDishRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DFB22A605D63002A2B3A /* DetailDishRouter.swift */; };
+		E445DFB82A61545F002A2B3A /* DishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DFB72A61545F002A2B3A /* DishView.swift */; };
+		E445DFBA2A61565D002A2B3A /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E445DFB92A61565D002A2B3A /* UIButton+.swift */; };
 		E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */; };
 		E4C3151A2A51699D007949FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315192A51699D007949FE /* AppDelegate.swift */; };
 		E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3151B2A51699D007949FE /* SceneDelegate.swift */; };
@@ -52,6 +57,11 @@
 		E445DF9A2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopDetailFoodCategoryView.swift; sourceTree = "<group>"; };
 		E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		E445DF9F2A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFoodCategoryRouter.swift; sourceTree = "<group>"; };
+		E445DFAD2A60483D002A2B3A /* DetailDishPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailDishPresenter.swift; sourceTree = "<group>"; };
+		E445DFAF2A60483D002A2B3A /* DetailDishViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailDishViewController.swift; sourceTree = "<group>"; };
+		E445DFB22A605D63002A2B3A /* DetailDishRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDishRouter.swift; sourceTree = "<group>"; };
+		E445DFB72A61545F002A2B3A /* DishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishView.swift; sourceTree = "<group>"; };
+		E445DFB92A61565D002A2B3A /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		E4C315162A51699D007949FE /* FoodOrderingShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodOrderingShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C315192A51699D007949FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -144,6 +154,50 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		E445DFAB2A60483D002A2B3A /* DetailDishModule */ = {
+			isa = PBXGroup;
+			children = (
+				E445DFB42A605D77002A2B3A /* Router */,
+				E445DFAE2A60483D002A2B3A /* View */,
+				E445DFAC2A60483D002A2B3A /* Presenter */,
+			);
+			name = DetailDishModule;
+			path = FoodOrderingShop/PresentationLayer/DetailDishModule;
+			sourceTree = SOURCE_ROOT;
+		};
+		E445DFAC2A60483D002A2B3A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				E445DFAD2A60483D002A2B3A /* DetailDishPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		E445DFAE2A60483D002A2B3A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E445DFB52A61540D002A2B3A /* ComponentsView */,
+				E445DFAF2A60483D002A2B3A /* DetailDishViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E445DFB42A605D77002A2B3A /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				E445DFB22A605D63002A2B3A /* DetailDishRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		E445DFB52A61540D002A2B3A /* ComponentsView */ = {
+			isa = PBXGroup;
+			children = (
+				E445DFB72A61545F002A2B3A /* DishView.swift */,
+			);
+			path = ComponentsView;
+			sourceTree = "<group>";
+		};
 		E4C3150D2A51699D007949FE = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +247,7 @@
 				E4C315432A518A88007949FE /* MainTabBarController.swift */,
 				E4C3152F2A516BCB007949FE /* MainModule */,
 				E438D2482A556FB200D96754 /* DetailFoodCategoryModule */,
+				E445DFAB2A60483D002A2B3A /* DetailDishModule */,
 				E4C315302A516BDD007949FE /* SearchModule */,
 				E4C315312A516C14007949FE /* BasketModule */,
 				E4C315322A516C35007949FE /* AccountModule */,
@@ -324,6 +379,7 @@
 				E4C315492A518BC1007949FE /* UIColor+.swift */,
 				E4C3155C2A520AEB007949FE /* Error+.swift */,
 				E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */,
+				E445DFB92A61565D002A2B3A /* UIButton+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -500,6 +556,7 @@
 			files = (
 				E4C3151E2A51699D007949FE /* MainViewController.swift in Sources */,
 				E438D2532A55B31A00D96754 /* LoadingView.swift in Sources */,
+				E445DFB12A60483D002A2B3A /* DetailDishViewController.swift in Sources */,
 				E4FAF02C2A56FE5C00EB963E /* DishCollectionViewCell.swift in Sources */,
 				E4C3155D2A520AEB007949FE /* Error+.swift in Sources */,
 				E4C3154C2A51B794007949FE /* SearchViewController.swift in Sources */,
@@ -510,17 +567,21 @@
 				E445DF9B2A5B2B52002A2B3A /* TopDetailFoodCategoryView.swift in Sources */,
 				E4C315592A51FF2C007949FE /* NetworkManager.swift in Sources */,
 				E4C315462A518B00007949FE /* Const.swift in Sources */,
+				E445DFB32A605D63002A2B3A /* DetailDishRouter.swift in Sources */,
+				E445DFB82A61545F002A2B3A /* DishView.swift in Sources */,
 				E4C315612A52EB70007949FE /* MainTableViewCell.swift in Sources */,
 				E4C315442A518A88007949FE /* MainTabBarController.swift in Sources */,
 				E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */,
 				E4FAF0312A581F2A00EB963E /* Mapper.swift in Sources */,
 				E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */,
 				E4C3154E2A51B7C8007949FE /* BasketViewController.swift in Sources */,
+				E445DFBA2A61565D002A2B3A /* UIButton+.swift in Sources */,
 				E4C3155F2A52E597007949FE /* Assembly.swift in Sources */,
 				E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */,
 				E4C3154A2A518BC1007949FE /* UIColor+.swift in Sources */,
 				E4C315552A51F9FC007949FE /* MainPresenter.swift in Sources */,
 				E4C3155B2A51FF47007949FE /* LocationManager.swift in Sources */,
+				E445DFB02A60483D002A2B3A /* DetailDishPresenter.swift in Sources */,
 				E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */,
 				E4C315572A51FEDD007949FE /* FoodCategoriesModel.swift in Sources */,
 				E438D24D2A55704100D96754 /* DetailFoodCategoryViewController.swift in Sources */,

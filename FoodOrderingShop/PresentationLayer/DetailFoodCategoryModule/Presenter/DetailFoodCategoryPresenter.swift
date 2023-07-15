@@ -99,9 +99,9 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     }
 
     func didTapDish(_ index: Int) {
-//        guard index < dishes.count else { return }
-//        let dish = dishes[index]
-//        router?.openDetailDish(dish)
+        guard index < dishes.count else { return }
+        let dish = dishes[index]
+        router?.openDetailDish(dish)
     }
 
     // MARK: - Private Methods

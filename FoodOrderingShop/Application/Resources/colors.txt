@@ -1,0 +1,13 @@
+# App
+primaryBackgroundColor: #F8F7F5
+secondaryBackgroundColor: #3364E0
+
+# TabBar
+activeTabBarItem: secondaryBackgroundColor
+inactiveTabBarItem: #A5A9B2
+borderTabBar: #E8E9EC
+
+# Main
+## DetailFoodCategoryModule
+inactiveDishTag: primaryBackgroundColor
+activeDishTag: secondaryBackgroundColor

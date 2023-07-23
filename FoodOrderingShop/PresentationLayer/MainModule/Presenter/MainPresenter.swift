@@ -82,7 +82,7 @@ class MainPresenter: MainPresenterProtocol {
 
     private func getFoodCategoriesData() {
         networkManager?.loadDataModel(
-            url: Const.Strings.urlFoodCategories
+            url: AppConstants.URLS.urlFoodCategories
         ) { [weak self] (result: Result<FoodCategoriesModel?, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {

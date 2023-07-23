@@ -21,7 +21,7 @@ class DishCollectionViewCell: UICollectionViewCell {
 
     private let backView: UIView = {
         let view = UIView()
-        view.backgroundColor = Const.Colors.backgroundDishView
+        view.backgroundColor = Colors.primaryBackgroundColor.color
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
         return view
@@ -58,6 +58,7 @@ class DishCollectionViewCell: UICollectionViewCell {
     // MARK: - Override Methods
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         dishImageView.image = nil
         dishNameLabel.text = nil
     }

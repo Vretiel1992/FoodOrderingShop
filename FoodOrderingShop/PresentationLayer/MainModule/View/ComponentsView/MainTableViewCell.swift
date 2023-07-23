@@ -57,6 +57,7 @@ class MainTableViewCell: UITableViewCell {
     // MARK: - Override Methods
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         foodCategoryImageView.image = nil
         foodCategoryNameLabel.text = nil
     }
@@ -105,7 +106,7 @@ extension MainTableViewCell: Configurable {
             kern: -0.1
         )
 
-        if let image =  model.foodCategoryImage {
+        if let image = model.foodCategoryImage {
             foodCategoryImageView.image = image
         }
     }

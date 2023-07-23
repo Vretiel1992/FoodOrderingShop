@@ -10,15 +10,6 @@ import SnapKit
 
 class DishView: UIView {
 
-    // MARK: - Types
-
-    enum Constants {
-        static let backgroundColorBackViewDish = UIColor(hexString: "#F8F7F5")
-        static let addToBasketButtonTitle = "Добавить в корзину"
-        static let favoritesButtonImage = UIImage(named: "favoritesIcon")
-        static let dismissButtonImage = UIImage(named: "dismissIcon")
-    }
-
     // MARK: - Public Properties
 
     var didTapAddToBasketButton: (() -> Void)?
@@ -36,7 +27,7 @@ class DishView: UIView {
 
     private let backViewDish: UIView = {
         let view = UIView()
-        view.backgroundColor = Constants.backgroundColorBackViewDish
+        view.backgroundColor = Colors.primaryBackgroundColor.color
         view.layer.cornerRadius = 10
         return view
     }()
@@ -93,8 +84,8 @@ class DishView: UIView {
     private lazy var addToBasketButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
-        let title = Constants.addToBasketButtonTitle
-        config.baseBackgroundColor = Const.Colors.backgroundButton
+        let title = Strings.DetailDishModule.DishView.AddToBasketButton.title
+        config.baseBackgroundColor = Colors.secondaryBackgroundColor.color
         config.baseForegroundColor = .white
         config.cornerStyle = .medium
         config.contentInsets = NSDirectionalEdgeInsets(
@@ -124,7 +115,7 @@ class DishView: UIView {
         config.baseBackgroundColor = .white
         config.baseForegroundColor = .black
         config.cornerStyle = .medium
-        config.image = Constants.favoritesButtonImage
+        config.image = Assets.DetailDishModule.favoritesIcon.image
         config.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
             leading: 10,
@@ -144,7 +135,7 @@ class DishView: UIView {
         config.baseBackgroundColor = .white
         config.baseForegroundColor = .black
         config.cornerStyle = .medium
-        config.image = Constants.dismissButtonImage
+        config.image = Assets.DetailDishModule.dismissIcon.image
         config.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
             leading: 10,
@@ -226,7 +217,7 @@ extension DishView: Configurable {
     }
 
     func configure(with model: Model) {
-        if let image =  model.dishImage {
+        if let image = model.dishImage {
             dishImageView.image = image
         }
 

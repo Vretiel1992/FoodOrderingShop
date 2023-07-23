@@ -27,8 +27,8 @@ class ErrorView: UIView {
     private lazy var updateViewButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
-        let title = Const.Strings.updateViewButton
-        config.baseBackgroundColor = Const.Colors.backgroundButton
+        let title = Strings.MainModule.ErrorView.UpdateViewButton.title
+        config.baseBackgroundColor = Colors.secondaryBackgroundColor.color
         config.baseForegroundColor = .white
         config.cornerStyle = .medium
         let attributeContainer = AttributeContainer([
@@ -72,7 +72,7 @@ class ErrorView: UIView {
     // MARK: - Private Methods
 
     private func setupViews() {
-        backgroundColor = Const.Colors.backgroundErrorView
+        backgroundColor = Colors.primaryBackgroundColor.color
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray4.cgColor

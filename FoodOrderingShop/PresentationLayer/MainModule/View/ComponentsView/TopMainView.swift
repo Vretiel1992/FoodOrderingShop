@@ -11,6 +11,16 @@ import SnapKit
 
 class TopMainView: UIView {
 
+    // MARK: - Types
+
+    enum Constants {
+        // Formatters
+        static let dateFormat = "d MMMM, yyyy"
+
+        //Some Identifiers
+        static let localIdentifier = "ru_RU"
+    }
+
     // MARK: - Private Properties
 
     private let vStackView: UIStackView = {
@@ -23,14 +33,14 @@ class TopMainView: UIView {
 
     private let userPhotoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Const.Images.userPhoto
+        imageView.image = Assets.TopView.userPhoto.image
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     private let locationIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Const.Images.locationIcon
+        imageView.image = Assets.TopView.locationIcon.image
         imageView.contentMode = .top
         return imageView
     }()
@@ -38,7 +48,7 @@ class TopMainView: UIView {
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.setTextAttributes(
-            text: Const.Strings.cityNotDefined,
+            text: Strings.MainModule.TopView.LocationLabel.initialText,
             lineHeightMultiple: 1.01,
             kern: -0.4
         )
@@ -113,8 +123,8 @@ class TopMainView: UIView {
 
     private func getCurrentDate() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Const.Strings.dateFormat
-        dateFormatter.locale = Locale(identifier: Const.Strings.localIdentifier)
+        dateFormatter.dateFormat = Constants.dateFormat
+        dateFormatter.locale = Locale(identifier: Constants.localIdentifier)
         let currentDate = Date()
         let formattedDate = dateFormatter.string(from: currentDate)
         return formattedDate

@@ -47,18 +47,22 @@ class MainTabBarController: UITabBarController {
     // MARK: - Private Methods
 
     private func configureAppearance() {
-        tabBar.tintColor = Const.Colors.activeTabBarItem
-        tabBar.barTintColor = Const.Colors.inactiveTabBarItem
+        tabBar.tintColor = Colors.activeTabBarItem.color
+        tabBar.barTintColor = Colors.inactiveTabBarItem.color
         tabBar.backgroundColor = .white
-        tabBar.layer.borderColor = Const.Colors.borderTabBar.cgColor
+        tabBar.layer.borderColor = Colors.borderTabBar.color.cgColor
         tabBar.layer.borderWidth = 1
         tabBar.layer.masksToBounds = true
 
         let controllers: [UINavigationController] = Tabs.allCases.map { tab in
-            let controller = UINavigationController(rootViewController: getController(for: tab))
-            controller.tabBarItem = UITabBarItem(title: Const.Strings.TabBar.title(for: tab),
-                                                 image: Const.Images.TabBar.icon(for: tab),
-                                                 tag: tab.rawValue)
+            let controller = UINavigationController(
+                rootViewController: getController(for: tab)
+            )
+            controller.tabBarItem = UITabBarItem(
+                title: setTitle(for: tab),
+                image: setIcon(for: tab),
+                tag: tab.rawValue
+            )
 
             return controller
         }
@@ -75,6 +79,32 @@ class MainTabBarController: UITabBarController {
             return BasketViewController()
         case .account:
             return AccountViewController()
+        }
+    }
+
+    private func setTitle(for tab: Tabs) -> String {
+        switch tab {
+        case .main:
+            return Strings.TabBar.Tabs.main
+        case .search:
+            return Strings.TabBar.Tabs.search
+        case .basket:
+            return Strings.TabBar.Tabs.basket
+        case .account:
+            return Strings.TabBar.Tabs.account
+        }
+    }
+
+    private func setIcon(for tab: Tabs) -> UIImage? {
+        switch tab {
+        case .main:
+            return Assets.TabBar.mainIcon.image
+        case .search:
+            return Assets.TabBar.searchIcon.image
+        case .basket:
+            return Assets.TabBar.basketIcon.image
+        case .account:
+            return Assets.TabBar.accountIcon.image
         }
     }
 }

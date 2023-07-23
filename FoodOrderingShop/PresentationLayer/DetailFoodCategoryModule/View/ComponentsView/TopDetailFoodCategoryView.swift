@@ -14,18 +14,11 @@ class TopDetailFoodCategoryView: UIView {
 
     var didTapBackButton: (() -> Void)?
 
-    // MARK: - Types
-
-    enum Constants {
-        static let titleLabelText = "Азиатская кухня"
-        static let backButtonImage = UIImage(named: "backIcon")
-    }
-
     // MARK: - Private Properties
 
     private let userPhotoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Const.Images.userPhoto
+        imageView.image = Assets.TopView.userPhoto.image
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -33,7 +26,7 @@ class TopDetailFoodCategoryView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.setTextAttributes(
-            text: Constants.titleLabelText,
+            text: Strings.DetailFoodCategoryModule.TopView.title,
             lineHeightMultiple: 1.01,
             kern: -0.4
         )
@@ -49,7 +42,7 @@ class TopDetailFoodCategoryView: UIView {
         let button = UIButton()
         var config = UIButton.Configuration.plain()
         config.baseForegroundColor = .black
-        config.image = Constants.backButtonImage
+        config.image = Assets.TopView.backIcon.image
         config.contentInsets = NSDirectionalEdgeInsets(
             top: 15,
             leading: 18,

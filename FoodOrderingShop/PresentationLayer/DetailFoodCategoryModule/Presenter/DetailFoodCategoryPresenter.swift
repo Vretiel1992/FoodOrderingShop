@@ -107,7 +107,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     // MARK: - Private Methods
 
     private func getDishesData() {
-        networkManager?.loadDataModel(url: Const.Strings.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
+        networkManager?.loadDataModel(url: AppConstants.URLS.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

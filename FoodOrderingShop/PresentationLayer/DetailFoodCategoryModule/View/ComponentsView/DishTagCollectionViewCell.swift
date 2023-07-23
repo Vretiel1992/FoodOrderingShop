@@ -45,6 +45,7 @@ class DishTagCollectionViewCell: UICollectionViewCell {
     // MARK: - Override Methods
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         setSelection(.notSelected)
     }
 
@@ -62,11 +63,11 @@ class DishTagCollectionViewCell: UICollectionViewCell {
     func setSelection(_ state: SelectionState) {
         switch state {
         case .selected:
-            contentView.backgroundColor = Const.Colors.activeDishTag
+            contentView.backgroundColor = Colors.activeDishTag.color
             titleLabel.textColor = .white
             currentSelectionState = .selected
         case .notSelected:
-            contentView.backgroundColor = Const.Colors.inactiveDishTag
+            contentView.backgroundColor = Colors.inactiveDishTag.color
             titleLabel.textColor = .black
             currentSelectionState = .notSelected
         }
@@ -77,7 +78,7 @@ class DishTagCollectionViewCell: UICollectionViewCell {
     private func setupViews() {
         layer.cornerRadius = 10
         clipsToBounds = true
-        contentView.backgroundColor = Const.Colors.inactiveDishTag
+        contentView.backgroundColor = Colors.inactiveDishTag.color
         contentView.addSubview(titleLabel)
     }
 

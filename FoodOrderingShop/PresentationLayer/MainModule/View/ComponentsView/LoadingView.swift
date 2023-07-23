@@ -28,7 +28,7 @@ class LoadingView: UIView {
     private let infoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.text = Const.Strings.loadingFoodCategories
+        label.text = Strings.MainModule.LoadingView.InfoLabel.text
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 2
@@ -62,7 +62,7 @@ class LoadingView: UIView {
     // MARK: - Private Methods
 
     private func setupViews() {
-        backgroundColor = Const.Colors.backgroundLoadingView
+        backgroundColor = Colors.primaryBackgroundColor.color
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray4.cgColor

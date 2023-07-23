@@ -20,7 +20,12 @@ class MainViewController: UIViewController {
     // MARK: - Types
 
     private enum Constants {
+        // Numerical
         static let defaultRowHeight: CGFloat = 156
+
+        // Reuse Identifiers
+        static let mainCellIdentifier = "mainCellIdentifier"
+
     }
 
     // MARK: - Public Properties
@@ -53,11 +58,11 @@ class MainViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.register(
             UITableViewCell.self,
-            forCellReuseIdentifier: Const.Strings.defaultCellIdentifier
+            forCellReuseIdentifier: AppConstants.Strings.defaultCellIdentifier
         )
         tableView.register(
             MainTableViewCell.self,
-            forCellReuseIdentifier: Const.Strings.mainCellIdentifier
+            forCellReuseIdentifier: Constants.mainCellIdentifier
         )
         return tableView
     }()
@@ -132,12 +137,12 @@ extension MainViewController: MainViewProtocol {
 
     func showLocationAccessDeniedAlert() {
         let alert = UIAlertController(
-            title: Const.Strings.locationAlertTitle,
-            message: Const.Strings.locationAlertMessage,
+            title: Strings.MainModule.MainVC.LocationAlert.title,
+            message: Strings.MainModule.MainVC.LocationAlert.message,
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(
-            title: Const.Strings.settingButton,
+            title: Strings.MainModule.MainVC.LocationAlert.SettingButton.title,
             style: .default
         ) { _ in
             guard let settingsURL = URL(
@@ -148,7 +153,7 @@ extension MainViewController: MainViewProtocol {
             }
         })
         alert.addAction(UIAlertAction(
-            title: Const.Strings.cancelButton,
+            title: Strings.MainModule.MainVC.LocationAlert.CancelButton.title,
             style: .cancel
         ))
         present(alert, animated: true)
@@ -168,11 +173,11 @@ extension MainViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: Const.Strings.mainCellIdentifier,
+            withIdentifier: Constants.mainCellIdentifier,
             for: indexPath
         ) as? MainTableViewCell else {
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: Const.Strings.defaultCellIdentifier,
+                withIdentifier: AppConstants.Strings.defaultCellIdentifier,
                 for: indexPath
             )
             return cell

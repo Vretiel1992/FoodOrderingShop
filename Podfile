@@ -8,5 +8,6 @@ target 'FoodOrderingShop' do
   # Pods for FoodOrderingShop
   pod 'SnapKit'
   pod 'SwiftLint'
+  pod 'SwiftGen'
 
 end

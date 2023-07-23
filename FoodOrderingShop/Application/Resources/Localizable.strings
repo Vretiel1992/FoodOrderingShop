@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  FoodOrderingShop
+
+  Created by Антон Денисюк on 22.07.2023.
+  
+*/
+
+// MARK: - Tabbar
+
+"TabBar.tabs.main" = "Главная";
+"TabBar.tabs.search" = "Поиск";
+"TabBar.tabs.basket" = "Корзина";
+"TabBar.tabs.account" = "Аккаунт";
+
+// MARK: - MainModule
+
+"MainModule.TopView.locationLabel.initialText" = "Город не определен";
+"MainModule.LoadingView.infoLabel.text" = "загрузка\nкатегорий блюд";
+"MainModule.ErrorView.updateViewButton.title" = "Обновить";
+"MainModule.MainVC.locationAlert.title" = "Доступ к геолокации запрещен";
+"MainModule.MainVC.locationAlert.message" = "Для определения вашего местоположения необходимо включить доступ к геолокации в настройках приложения.";
+"MainModule.MainVC.locationAlert.settingButton.title" = "Настройки";
+"MainModule.MainVC.locationAlert.cancelButton.title" = "Отмена";
+
+// MARK: - DetailFoodCategoryModule
+
+"DetailFoodCategoryModule.TopView.title" = "Азиатская кухня";
+
+// MARK: - DetailDishModule
+"DetailDishModule.DishView.addToBasketButton.title" = "Добавить в корзину";

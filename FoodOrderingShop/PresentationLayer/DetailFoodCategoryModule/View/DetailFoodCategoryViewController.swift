@@ -23,6 +23,14 @@ protocol DetailFoodCategoryViewProtocol: AnyObject {
 
 class DetailFoodCategoryViewController: UIViewController {
 
+    // MARK: - Types
+
+    enum Constants {
+        // Reuse Identifiers
+        static let dishTagCellIdentifier = "dishTagCellIdentifier"
+        static let dishCellIdentifier = "dishCellIdentifier"
+    }
+
     // MARK: - Public Properties
 
     var presenter: DetailFoodCategoryPresenterProtocol?
@@ -47,15 +55,15 @@ class DetailFoodCategoryViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(
             DishTagCollectionViewCell.self,
-            forCellWithReuseIdentifier: Const.Strings.dishTagCellIdentifier
+            forCellWithReuseIdentifier: Constants.dishTagCellIdentifier
         )
         collectionView.register(
             DishCollectionViewCell.self,
-            forCellWithReuseIdentifier: Const.Strings.dishCellIdentifier
+            forCellWithReuseIdentifier: Constants.dishCellIdentifier
         )
         collectionView.register(
             UICollectionViewCell.self,
-            forCellWithReuseIdentifier: Const.Strings.defaultCellIdentifier
+            forCellWithReuseIdentifier: AppConstants.Strings.defaultCellIdentifier
         )
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -209,11 +217,11 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
 
         if indexPath.section == 0 {
             guard let item = collectionView.dequeueReusableCell(
-                withReuseIdentifier: Const.Strings.dishTagCellIdentifier,
+                withReuseIdentifier: Constants.dishTagCellIdentifier,
                 for: indexPath
             ) as? DishTagCollectionViewCell else {
                 let item = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: Const.Strings.defaultCellIdentifier,
+                    withReuseIdentifier: AppConstants.Strings.defaultCellIdentifier,
                     for: indexPath
                 )
                 return item
@@ -232,11 +240,11 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
             return item
         } else {
             guard let item = collectionView.dequeueReusableCell(
-                withReuseIdentifier: Const.Strings.dishCellIdentifier,
+                withReuseIdentifier: Constants.dishCellIdentifier,
                 for: indexPath
             ) as? DishCollectionViewCell else {
                 let item = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: Const.Strings.defaultCellIdentifier,
+                    withReuseIdentifier: AppConstants.Strings.defaultCellIdentifier,
                     for: indexPath
                 )
                 return item

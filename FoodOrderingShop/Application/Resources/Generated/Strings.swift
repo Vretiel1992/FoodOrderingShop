@@ -61,6 +61,16 @@ internal enum Strings {
       }
     }
   }
+  internal enum MenuModel {
+    /// Все меню
+    internal static let tagNameAllMenu = Strings.tr("Localizable", "MenuModel.tagNameAllMenu", fallback: "Все меню")
+    /// Салаты
+    internal static let tagNameSalads = Strings.tr("Localizable", "MenuModel.tagNameSalads", fallback: "Салаты")
+    /// С рыбой
+    internal static let tagNameWithFish = Strings.tr("Localizable", "MenuModel.tagNameWithFish", fallback: "С рыбой")
+    /// С рисом
+    internal static let tagNameWithRice = Strings.tr("Localizable", "MenuModel.tagNameWithRice", fallback: "С рисом")
+  }
   internal enum TabBar {
     internal enum Tabs {
       /// Аккаунт

@@ -26,37 +26,33 @@ struct Dish: Codable {
     }
 }
 
-func processTegs(_ dishes: [Dish]) -> [Teg] {
-    var tags = Set<String>()
-    for dish in dishes {
-        for tag in dish.tegs {
-            tags.insert(tag)
-        }
-    }
-    let sortedTags = tags.sorted()
-
-    var result: [Teg] = [.allMenu]
-    for tag in sortedTags {
-        switch tag {
-        case Teg.allMenu.string:
-            continue
-        case "Салаты":
-            result.insert(.custom(tag), at: 1)
-        default:
-            result.append(.custom(tag))
-        }
-    }
-    return result
-}
-
 enum Teg {
     case allMenu
     case custom(String)
 
     var string: String {
         switch self {
-        case .allMenu: return "Все меню"
+        case .allMenu: return Strings.MenuModel.tagNameAllMenu
         case let .custom(value): return value
         }
+    }
+}
+
+extension Teg: Comparable {
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        let sortOrder: [Teg] = [
+            .allMenu,
+            .custom(Strings.MenuModel.tagNameSalads),
+            .custom(Strings.MenuModel.tagNameWithRice),
+            .custom(Strings.MenuModel.tagNameWithFish)
+        ]
+
+        guard let lhsIndex = sortOrder.firstIndex(of: lhs),
+              let rhsIndex = sortOrder.firstIndex(of: rhs) else {
+            return false
+        }
+
+        return lhsIndex < rhsIndex
     }
 }

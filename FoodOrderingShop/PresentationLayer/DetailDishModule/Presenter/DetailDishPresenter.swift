@@ -11,7 +11,6 @@ protocol DetailDishPresenterProtocol: AnyObject {
     init(
         view: DetailDishViewProtocol,
         networkManager: NetworkManagerProtocol,
-        mapper: MapperProtocol,
         router: DetailDishRouterProtocol,
         dish: Dish
     )
@@ -24,25 +23,23 @@ protocol DetailDishPresenterProtocol: AnyObject {
 
 class DetailDishPresenter: DetailDishPresenterProtocol {
 
-    // MARK: - Public Properties
+    // MARK: - Private Properties
 
-    weak var view: DetailDishViewProtocol?
-    var networkManager: NetworkManagerProtocol?
-    var mapper: MapperProtocol
-    var router: DetailDishRouterProtocol?
-    var dish: Dish
+    private weak var view: DetailDishViewProtocol?
+    private let networkManager: NetworkManagerProtocol
+    private let router: DetailDishRouterProtocol
+    private var dish: Dish
+    private let selectedDishMapper = SelectedDishMapper()
 
     // MARK: - Initializers
 
     required init(
         view: DetailDishViewProtocol,
         networkManager: NetworkManagerProtocol,
-        mapper: MapperProtocol,
         router: DetailDishRouterProtocol,
         dish: Dish) {
             self.view = view
             self.networkManager = networkManager
-            self.mapper = mapper
             self.router = router
             self.dish = dish
         }
@@ -50,7 +47,7 @@ class DetailDishPresenter: DetailDishPresenterProtocol {
     // MARK: - Protocol Methods
 
     func viewDidLoad() {
-        view?.update(with: mapper.convert(dish))
+        view?.update(with: selectedDishMapper.map(dish))
     }
 
     func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void) {
@@ -66,13 +63,13 @@ class DetailDishPresenter: DetailDishPresenterProtocol {
     }
 
     func didTapDismissButton() {
-        router?.dismiss()
+        router.dismiss()
     }
 
     // MARK: - Private Methods
 
     private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
-        networkManager?.loadImageData(url: url) { [weak self] result in
+        networkManager.loadImageData(url: url) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

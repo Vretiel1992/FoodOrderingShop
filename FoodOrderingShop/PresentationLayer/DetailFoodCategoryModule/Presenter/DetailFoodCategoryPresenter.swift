@@ -11,7 +11,6 @@ protocol DetailFoodCategoryPresenterProtocol: AnyObject {
     init(
         view: DetailFoodCategoryViewProtocol,
         networkManager: NetworkManagerProtocol,
-        mapper: MapperProtocol,
         router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory
     )
@@ -25,21 +24,19 @@ protocol DetailFoodCategoryPresenterProtocol: AnyObject {
 
 class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
 
-    // MARK: - Public Properties
-
-    weak var view: DetailFoodCategoryViewProtocol?
-    var networkManager: NetworkManagerProtocol?
-    var mapper: MapperProtocol
-    var router: DetailFoodCategoryRouterProtocol?
-    let foodCategory: FoodCategory
-
     // MARK: - Private Properties
 
+    private weak var view: DetailFoodCategoryViewProtocol?
+    private let networkManager: NetworkManagerProtocol
+    private let router: DetailFoodCategoryRouterProtocol
+    private let foodCategory: FoodCategory
+    private let dishTagMapper = DishTagMapper()
+    private let dishMapper = DishMapper()
     private var dishes: [Dish] = [] {
         didSet {
             view?.update(
-                mapper.map(dishTags),
-                mapper.map(dishes)
+                dishTags.map(dishTagMapper.map),
+                dishes.map(dishMapper.map)
             )
         }
     }
@@ -48,8 +45,8 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
 
     private var currentTag: Teg = .allMenu {
         didSet {
-            let sectionToUpdate = 1
-            view?.update(itemIndexPaths, sectionToUpdate, mapper.map(currentTag, dishes))
+//            let sectionToUpdate = 1
+//            view?.update(itemIndexPaths, sectionToUpdate, mapper.map(currentTag, dishes))
         }
     }
 
@@ -63,12 +60,10 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     required init(
         view: DetailFoodCategoryViewProtocol,
         networkManager: NetworkManagerProtocol,
-        mapper: MapperProtocol,
         router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory) {
             self.view = view
             self.networkManager = networkManager
-            self.mapper = mapper
             self.router = router
             self.foodCategory = foodCategory
         }
@@ -84,7 +79,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     }
 
     func didTapBackButton() {
-        router?.popToMain()
+        router.popToMain()
     }
 
     func didTapDishTag(_ indexPath: IndexPath) {
@@ -101,19 +96,19 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     func didTapDish(_ index: Int) {
         guard index < dishes.count else { return }
         let dish = dishes[index]
-        router?.openDetailDish(dish)
+        router.openDetailDish(dish)
     }
 
     // MARK: - Private Methods
 
     private func getDishesData() {
-        networkManager?.loadDataModel(url: AppConstants.URLS.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
+        networkManager.loadDataModel(url: AppConstants.URLS.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let dishes):
                     if let data = dishes {
-                        self.dishTags = processTegs(data.dishes)
+                        self.dishTags = TagGenerator().process(data.dishes)
                         self.dishes = data.dishes
                     }
                 case .failure(let error):
@@ -124,7 +119,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     }
 
     private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
-        networkManager?.loadImageData(url: url) { [weak self] result in
+        networkManager.loadImageData(url: url) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

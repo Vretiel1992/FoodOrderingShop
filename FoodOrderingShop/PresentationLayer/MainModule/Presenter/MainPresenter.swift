@@ -10,7 +10,6 @@ import Foundation
 protocol MainPresenterProtocol: AnyObject {
     init(
         view: MainViewProtocol,
-        mapper: MapperProtocol,
         router: MainRouterProtocol,
         networkManager: NetworkManagerProtocol,
         locationManager: LocationManagerProtocol
@@ -23,20 +22,17 @@ protocol MainPresenterProtocol: AnyObject {
 
 class MainPresenter: MainPresenterProtocol {
 
-    // MARK: - Public Properties
-
-    weak var view: MainViewProtocol?
-    var networkManager: NetworkManagerProtocol?
-    var locationManager: LocationManagerProtocol?
-    var mapper: MapperProtocol
-
     // MARK: - Private Properties
 
-    private var router: MainRouterProtocol?
+    private weak var view: MainViewProtocol?
+    private let networkManager: NetworkManagerProtocol
+    private let locationManager: LocationManagerProtocol
+    private let router: MainRouterProtocol
+    private let foodCategoryMapper = FoodCategoryMapper()
 
     private var foodCategories: [FoodCategory] = [] {
         didSet {
-            view?.update(with: mapper.map(foodCategories))
+            view?.update(with: foodCategories.map(foodCategoryMapper.map))
         }
     }
 
@@ -44,14 +40,12 @@ class MainPresenter: MainPresenterProtocol {
 
     required init(
         view: MainViewProtocol,
-        mapper: MapperProtocol,
         router: MainRouterProtocol,
         networkManager: NetworkManagerProtocol,
         locationManager: LocationManagerProtocol
     ) {
         self.view = view
         self.router = router
-        self.mapper = mapper
         self.networkManager = networkManager
         self.locationManager = locationManager
     }
@@ -71,7 +65,7 @@ class MainPresenter: MainPresenterProtocol {
     func didTapFoodCategory(index: Int) {
         guard index < foodCategories.count else { return }
         let foodCategory = foodCategories[index]
-        router?.openDetailFoodCategory(foodCategory)
+        router.openDetailFoodCategory(foodCategory)
     }
 
     func didTapUpdateViewButton() {
@@ -81,7 +75,7 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Private Methods
 
     private func getFoodCategoriesData() {
-        networkManager?.loadDataModel(
+        networkManager.loadDataModel(
             url: AppConstants.URLS.urlFoodCategories
         ) { [weak self] (result: Result<FoodCategoriesModel?, Error>) in
             guard let self = self else { return }
@@ -99,7 +93,7 @@ class MainPresenter: MainPresenterProtocol {
     }
 
     private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
-        networkManager?.loadImageData(url: url) { [weak self] result in
+        networkManager.loadImageData(url: url) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
@@ -113,26 +107,26 @@ class MainPresenter: MainPresenterProtocol {
     }
 
     private func checkLocationAuthorization() {
-        locationManager?.setAuthorizationStatusHandler { [weak self] authorizationStatus in
+        locationManager.setAuthorizationStatusHandler { [weak self] authorizationStatus in
             guard let self = self else { return }
             switch authorizationStatus {
             case .authorizedWhenInUse, .authorizedAlways:
                 DispatchQueue.main.async {
-                    self.locationManager?.requestLocation()
+                    self.locationManager.requestLocation()
                 }
             case .denied, .restricted:
                 self.view?.showLocationAccessDeniedAlert()
             case .notDetermined:
-                self.locationManager?.requestWhenInUseAuthorization()
+                self.locationManager.requestWhenInUseAuthorization()
             @unknown default:
                 break
             }
         }
-        locationManager?.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
 
     private func updateLocationLabel() {
-        locationManager?.updatingLocation { [weak self] currentLocation, geocoder in
+        locationManager.updatingLocation { [weak self] currentLocation, geocoder in
             geocoder.reverseGeocodeLocation(currentLocation) { placemarks, error in
                 if let error = error {
                     print("Ошибка геокодирования: \(error.localizedDescription)")

@@ -24,13 +24,23 @@
 		E46407A32A6C536F0019296F /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407A22A6C536F0019296F /* Strings.swift */; };
 		E46407A72A6D5BAA0019296F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407A62A6D5BAA0019296F /* Colors.swift */; };
 		E46407A92A6D66A10019296F /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407A82A6D66A10019296F /* Assets.swift */; };
+		E46407AE2A6ED77B0019296F /* TabBarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407AD2A6ED77B0019296F /* TabBarPresenter.swift */; };
+		E46407B12A6EDF0C0019296F /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407B02A6EDF0C0019296F /* TabBarRouter.swift */; };
+		E484829B2A728EC800681F30 /* TagGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829A2A728EC800681F30 /* TagGenerator.swift */; };
+		E484829E2A72BBB900681F30 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829D2A72BBB900681F30 /* Configurable.swift */; };
+		E48482A02A72BC5C00681F30 /* MainTableViewCell+Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */; };
+		E48482A32A72C31400681F30 /* FoodCategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A22A72C31400681F30 /* FoodCategoryMapper.swift */; };
+		E48482A52A72C37300681F30 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A42A72C37300681F30 /* Mappable.swift */; };
+		E48482A72A72CDB700681F30 /* DishTagMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A62A72CDB700681F30 /* DishTagMapper.swift */; };
+		E48482AA2A72CED300681F30 /* DishMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A92A72CED300681F30 /* DishMapper.swift */; };
+		E48482AC2A72CF6600681F30 /* SelectedDishMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482AB2A72CF6600681F30 /* SelectedDishMapper.swift */; };
 		E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */; };
 		E4C3151A2A51699D007949FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315192A51699D007949FE /* AppDelegate.swift */; };
 		E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3151B2A51699D007949FE /* SceneDelegate.swift */; };
 		E4C3151E2A51699D007949FE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3151D2A51699D007949FE /* MainViewController.swift */; };
 		E4C315232A51699E007949FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4C315222A51699E007949FE /* Assets.xcassets */; };
 		E4C315262A51699E007949FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4C315242A51699E007949FE /* LaunchScreen.storyboard */; };
-		E4C315442A518A88007949FE /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315432A518A88007949FE /* MainTabBarController.swift */; };
+		E4C315442A518A88007949FE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315432A518A88007949FE /* TabBarController.swift */; };
 		E4C315462A518B00007949FE /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315452A518AFF007949FE /* AppConstants.swift */; };
 		E4C3154A2A518BC1007949FE /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315492A518BC1007949FE /* UIColor+.swift */; };
 		E4C3154C2A51B794007949FE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3154B2A51B794007949FE /* SearchViewController.swift */; };
@@ -70,6 +80,16 @@
 		E46407A22A6C536F0019296F /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		E46407A62A6D5BAA0019296F /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		E46407A82A6D66A10019296F /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		E46407AD2A6ED77B0019296F /* TabBarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarPresenter.swift; sourceTree = "<group>"; };
+		E46407B02A6EDF0C0019296F /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
+		E484829A2A728EC800681F30 /* TagGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGenerator.swift; sourceTree = "<group>"; };
+		E484829D2A72BBB900681F30 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
+		E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainTableViewCell+Configurable.swift"; sourceTree = "<group>"; };
+		E48482A22A72C31400681F30 /* FoodCategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategoryMapper.swift; sourceTree = "<group>"; };
+		E48482A42A72C37300681F30 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		E48482A62A72CDB700681F30 /* DishTagMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishTagMapper.swift; sourceTree = "<group>"; };
+		E48482A92A72CED300681F30 /* DishMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishMapper.swift; sourceTree = "<group>"; };
+		E48482AB2A72CF6600681F30 /* SelectedDishMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDishMapper.swift; sourceTree = "<group>"; };
 		E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		E4C315162A51699D007949FE /* FoodOrderingShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodOrderingShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4C315192A51699D007949FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,7 +98,7 @@
 		E4C315222A51699E007949FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4C315252A51699E007949FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4C315272A51699E007949FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E4C315432A518A88007949FE /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		E4C315432A518A88007949FE /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E4C315452A518AFF007949FE /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		E4C315492A518BC1007949FE /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		E4C3154B2A51B794007949FE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +153,7 @@
 				E445DF9E2A5ECB5E002A2B3A /* Router */,
 				E438D24A2A55700100D96754 /* View */,
 				E438D24B2A55700800D96754 /* Presenter */,
+				E48482A82A72CDC200681F30 /* Mappers */,
 			);
 			path = DetailFoodCategoryModule;
 			sourceTree = "<group>";
@@ -168,6 +189,7 @@
 				E445DFB42A605D77002A2B3A /* Router */,
 				E445DFAE2A60483D002A2B3A /* View */,
 				E445DFAC2A60483D002A2B3A /* Presenter */,
+				E48482AB2A72CF6600681F30 /* SelectedDishMapper.swift */,
 			);
 			name = DetailDishModule;
 			path = FoodOrderingShop/PresentationLayer/DetailDishModule;
@@ -216,6 +238,85 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		E46407AA2A6ED7240019296F /* TabBarModule */ = {
+			isa = PBXGroup;
+			children = (
+				E46407AF2A6EDEFF0019296F /* Router */,
+				E46407AB2A6ED7510019296F /* View */,
+				E46407AC2A6ED75B0019296F /* Presenter */,
+			);
+			path = TabBarModule;
+			sourceTree = "<group>";
+		};
+		E46407AB2A6ED7510019296F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315432A518A88007949FE /* TabBarController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E46407AC2A6ED75B0019296F /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				E46407AD2A6ED77B0019296F /* TabBarPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		E46407AF2A6EDEFF0019296F /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				E46407B02A6EDF0C0019296F /* TabBarRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		E48482982A728E5A00681F30 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315562A51FEDD007949FE /* FoodCategoriesModel.swift */,
+				E438D2502A55802D00D96754 /* MenuModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E48482992A728E6900681F30 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				E4FAF0302A581F2A00EB963E /* Mapper.swift */,
+				E484829A2A728EC800681F30 /* TagGenerator.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		E484829C2A72BBA900681F30 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E484829D2A72BBB900681F30 /* Configurable.swift */,
+				E48482A42A72C37300681F30 /* Mappable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E48482A12A72BCC700681F30 /* MainTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315602A52EB70007949FE /* MainTableViewCell.swift */,
+				E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */,
+			);
+			path = MainTableViewCell;
+			sourceTree = "<group>";
+		};
+		E48482A82A72CDC200681F30 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				E48482A62A72CDB700681F30 /* DishTagMapper.swift */,
+				E48482A92A72CED300681F30 /* DishMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
 		E4C3150D2A51699D007949FE = {
 			isa = PBXGroup;
 			children = (
@@ -262,7 +363,7 @@
 		E4C3152E2A516B86007949FE /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
-				E4C315432A518A88007949FE /* MainTabBarController.swift */,
+				E46407AA2A6ED7240019296F /* TabBarModule */,
 				E4C3152F2A516BCB007949FE /* MainModule */,
 				E438D2482A556FB200D96754 /* DetailFoodCategoryModule */,
 				E445DFAB2A60483D002A2B3A /* DetailDishModule */,
@@ -279,6 +380,7 @@
 				E4FAF02D2A580CC600EB963E /* Router */,
 				E4C315342A516C6E007949FE /* View */,
 				E4C315352A516C75007949FE /* Presenter */,
+				E48482A22A72C31400681F30 /* FoodCategoryMapper.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
@@ -313,7 +415,6 @@
 			children = (
 				E4C315582A51FF2C007949FE /* NetworkManager.swift */,
 				E4C3155A2A51FF47007949FE /* LocationManager.swift */,
-				E4FAF0302A581F2A00EB963E /* Mapper.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -338,8 +439,8 @@
 		E4C315362A516C7C007949FE /* ModelLayer */ = {
 			isa = PBXGroup;
 			children = (
-				E4C315562A51FEDD007949FE /* FoodCategoriesModel.swift */,
-				E438D2502A55802D00D96754 /* MenuModel.swift */,
+				E48482992A728E6900681F30 /* Mappers */,
+				E48482982A728E5A00681F30 /* Models */,
 			);
 			path = ModelLayer;
 			sourceTree = "<group>";
@@ -408,6 +509,7 @@
 			isa = PBXGroup;
 			children = (
 				E4C315452A518AFF007949FE /* AppConstants.swift */,
+				E484829C2A72BBA900681F30 /* Protocols */,
 				E4C315472A518B64007949FE /* Extensions */,
 			);
 			path = Helpers;
@@ -419,7 +521,7 @@
 				E4C315522A51CE89007949FE /* TopMainView.swift */,
 				E438D2522A55B31A00D96754 /* LoadingView.swift */,
 				E4A8BFDE2A548AF700D176E9 /* ErrorView.swift */,
-				E4C315602A52EB70007949FE /* MainTableViewCell.swift */,
+				E48482A12A72BCC700681F30 /* MainTableViewCell */,
 			);
 			path = ComponentsView;
 			sourceTree = "<group>";
@@ -597,8 +699,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E484829E2A72BBB900681F30 /* Configurable.swift in Sources */,
 				E4C3151E2A51699D007949FE /* MainViewController.swift in Sources */,
 				E438D2532A55B31A00D96754 /* LoadingView.swift in Sources */,
+				E48482A32A72C31400681F30 /* FoodCategoryMapper.swift in Sources */,
 				E46407A92A6D66A10019296F /* Assets.swift in Sources */,
 				E445DFB12A60483D002A2B3A /* DetailDishViewController.swift in Sources */,
 				E4FAF02C2A56FE5C00EB963E /* DishCollectionViewCell.swift in Sources */,
@@ -613,13 +717,20 @@
 				E4C315462A518B00007949FE /* AppConstants.swift in Sources */,
 				E445DFB32A605D63002A2B3A /* DetailDishRouter.swift in Sources */,
 				E445DFB82A61545F002A2B3A /* DishView.swift in Sources */,
+				E46407AE2A6ED77B0019296F /* TabBarPresenter.swift in Sources */,
+				E48482A52A72C37300681F30 /* Mappable.swift in Sources */,
 				E4C315612A52EB70007949FE /* MainTableViewCell.swift in Sources */,
-				E4C315442A518A88007949FE /* MainTabBarController.swift in Sources */,
+				E46407B12A6EDF0C0019296F /* TabBarRouter.swift in Sources */,
+				E48482A72A72CDB700681F30 /* DishTagMapper.swift in Sources */,
+				E4C315442A518A88007949FE /* TabBarController.swift in Sources */,
 				E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */,
 				E4FAF0312A581F2A00EB963E /* Mapper.swift in Sources */,
+				E48482A02A72BC5C00681F30 /* MainTableViewCell+Configurable.swift in Sources */,
 				E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */,
+				E48482AC2A72CF6600681F30 /* SelectedDishMapper.swift in Sources */,
 				E4C3154E2A51B7C8007949FE /* BasketViewController.swift in Sources */,
 				E445DFBA2A61565D002A2B3A /* UIButton+.swift in Sources */,
+				E48482AA2A72CED300681F30 /* DishMapper.swift in Sources */,
 				E4C3155F2A52E597007949FE /* Assembly.swift in Sources */,
 				E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */,
 				E4C3154A2A518BC1007949FE /* UIColor+.swift in Sources */,
@@ -627,6 +738,7 @@
 				E46407A72A6D5BAA0019296F /* Colors.swift in Sources */,
 				E4C3155B2A51FF47007949FE /* LocationManager.swift in Sources */,
 				E46407A32A6C536F0019296F /* Strings.swift in Sources */,
+				E484829B2A728EC800681F30 /* TagGenerator.swift in Sources */,
 				E445DFB02A60483D002A2B3A /* DetailDishPresenter.swift in Sources */,
 				E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */,
 				E4C315572A51FEDD007949FE /* FoodCategoriesModel.swift in Sources */,

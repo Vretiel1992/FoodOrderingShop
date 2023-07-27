@@ -28,4 +28,12 @@
 "DetailFoodCategoryModule.TopView.title" = "Азиатская кухня";
 
 // MARK: - DetailDishModule
+
 "DetailDishModule.DishView.addToBasketButton.title" = "Добавить в корзину";
+
+// MARK: - MenuModel
+
+"MenuModel.tagNameAllMenu" = "Все меню";
+"MenuModel.tagNameSalads" = "Салаты";
+"MenuModel.tagNameWithRice" = "С рисом";
+"MenuModel.tagNameWithFish" = "С рыбой";

@@ -8,12 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol Configurable {
-    associatedtype Model
-
-    func configure(with model: Model)
-}
-
 class MainTableViewCell: UITableViewCell {
 
     // MARK: - Private Properties

@@ -28,7 +28,6 @@
 		E46407B12A6EDF0C0019296F /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46407B02A6EDF0C0019296F /* TabBarRouter.swift */; };
 		E484829B2A728EC800681F30 /* TagGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829A2A728EC800681F30 /* TagGenerator.swift */; };
 		E484829E2A72BBB900681F30 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829D2A72BBB900681F30 /* Configurable.swift */; };
-		E48482A02A72BC5C00681F30 /* MainTableViewCell+Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */; };
 		E48482A32A72C31400681F30 /* FoodCategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A22A72C31400681F30 /* FoodCategoryMapper.swift */; };
 		E48482A52A72C37300681F30 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A42A72C37300681F30 /* Mappable.swift */; };
 		E48482A72A72CDB700681F30 /* DishTagMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48482A62A72CDB700681F30 /* DishTagMapper.swift */; };
@@ -84,7 +83,6 @@
 		E46407B02A6EDF0C0019296F /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
 		E484829A2A728EC800681F30 /* TagGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGenerator.swift; sourceTree = "<group>"; };
 		E484829D2A72BBB900681F30 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
-		E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainTableViewCell+Configurable.swift"; sourceTree = "<group>"; };
 		E48482A22A72C31400681F30 /* FoodCategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategoryMapper.swift; sourceTree = "<group>"; };
 		E48482A42A72C37300681F30 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
 		E48482A62A72CDB700681F30 /* DishTagMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishTagMapper.swift; sourceTree = "<group>"; };
@@ -192,7 +190,7 @@
 				E48482AB2A72CF6600681F30 /* SelectedDishMapper.swift */,
 			);
 			name = DetailDishModule;
-			path = FoodOrderingShop/PresentationLayer/DetailDishModule;
+			path = FoodOrderingShop/PresentationLayer/Menu/DetailDishModule;
 			sourceTree = SOURCE_ROOT;
 		};
 		E445DFAC2A60483D002A2B3A /* Presenter */ = {
@@ -303,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				E4C315602A52EB70007949FE /* MainTableViewCell.swift */,
-				E484829F2A72BC5C00681F30 /* MainTableViewCell+Configurable.swift */,
 			);
 			path = MainTableViewCell;
 			sourceTree = "<group>";
@@ -315,6 +312,48 @@
 				E48482A92A72CED300681F30 /* DishMapper.swift */,
 			);
 			path = Mappers;
+			sourceTree = "<group>";
+		};
+		E48482B32A73ADC700681F30 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				E46407AA2A6ED7240019296F /* TabBarModule */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		E48482B42A73ADDB00681F30 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				E4C3152F2A516BCB007949FE /* MainModule */,
+				E438D2482A556FB200D96754 /* DetailFoodCategoryModule */,
+				E445DFAB2A60483D002A2B3A /* DetailDishModule */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		E48482B52A73ADFD00681F30 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315302A516BDD007949FE /* SearchModule */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		E48482B62A73AE0900681F30 /* Basket */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315312A516C14007949FE /* BasketModule */,
+			);
+			path = Basket;
+			sourceTree = "<group>";
+		};
+		E48482B72A73AE1700681F30 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315322A516C35007949FE /* AccountModule */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		E4C3150D2A51699D007949FE = {
@@ -363,13 +402,11 @@
 		E4C3152E2A516B86007949FE /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
-				E46407AA2A6ED7240019296F /* TabBarModule */,
-				E4C3152F2A516BCB007949FE /* MainModule */,
-				E438D2482A556FB200D96754 /* DetailFoodCategoryModule */,
-				E445DFAB2A60483D002A2B3A /* DetailDishModule */,
-				E4C315302A516BDD007949FE /* SearchModule */,
-				E4C315312A516C14007949FE /* BasketModule */,
-				E4C315322A516C35007949FE /* AccountModule */,
+				E48482B32A73ADC700681F30 /* Root */,
+				E48482B42A73ADDB00681F30 /* Menu */,
+				E48482B52A73ADFD00681F30 /* Search */,
+				E48482B62A73AE0900681F30 /* Basket */,
+				E48482B72A73AE1700681F30 /* Account */,
 			);
 			path = PresentationLayer;
 			sourceTree = "<group>";
@@ -725,7 +762,6 @@
 				E4C315442A518A88007949FE /* TabBarController.swift in Sources */,
 				E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */,
 				E4FAF0312A581F2A00EB963E /* Mapper.swift in Sources */,
-				E48482A02A72BC5C00681F30 /* MainTableViewCell+Configurable.swift in Sources */,
 				E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */,
 				E48482AC2A72CF6600681F30 /* SelectedDishMapper.swift in Sources */,
 				E4C3154E2A51B7C8007949FE /* BasketViewController.swift in Sources */,

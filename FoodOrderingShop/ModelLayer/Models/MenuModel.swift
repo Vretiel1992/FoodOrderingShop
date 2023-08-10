@@ -25,34 +25,3 @@ struct Dish: Codable {
         case tegs
     }
 }
-
-enum Teg {
-    case allMenu
-    case custom(String)
-
-    var string: String {
-        switch self {
-        case .allMenu: return Strings.MenuModel.tagNameAllMenu
-        case let .custom(value): return value
-        }
-    }
-}
-
-extension Teg: Comparable {
-
-    static func < (lhs: Self, rhs: Self) -> Bool {
-        let sortOrder: [Teg] = [
-            .allMenu,
-            .custom(Strings.MenuModel.tagNameSalads),
-            .custom(Strings.MenuModel.tagNameWithRice),
-            .custom(Strings.MenuModel.tagNameWithFish)
-        ]
-
-        guard let lhsIndex = sortOrder.firstIndex(of: lhs),
-              let rhsIndex = sortOrder.firstIndex(of: rhs) else {
-            return false
-        }
-
-        return lhsIndex < rhsIndex
-    }
-}

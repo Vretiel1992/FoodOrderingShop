@@ -25,7 +25,6 @@ class MainViewController: UIViewController {
 
         // Reuse Identifiers
         static let mainCellIdentifier = "mainCellIdentifier"
-
     }
 
     // MARK: - Public Properties

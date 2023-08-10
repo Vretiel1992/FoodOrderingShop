@@ -37,9 +37,11 @@ class NetworkManager: NetworkManagerProtocol {
     func loadDataModel<T: Codable>(url: URL, _ completion: @escaping (Result<T?, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
-                error.isNoInternetConnection
-                ? completion(.failure(FetchError.noInternetConnection))
-                : completion(.failure(FetchError.unknown))
+                if error.isNoInternetConnection {
+                    completion(.failure(FetchError.noInternetConnection))
+                } else {
+                    completion(.failure(FetchError.unknown))
+                }
                 return
             }
             guard let data = data else {
@@ -59,9 +61,11 @@ class NetworkManager: NetworkManagerProtocol {
     func loadImageData(url: URL, _ completion: @escaping (Result<Data, Error>) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
-                error.isNoInternetConnection
-                ? completion(.failure(FetchError.noInternetConnection))
-                : completion(.failure(FetchError.unknown))
+                if error.isNoInternetConnection {
+                    completion(.failure(FetchError.noInternetConnection))
+                } else {
+                    completion(.failure(FetchError.unknown))
+                }
                 return
             }
             guard let imageData = data else {

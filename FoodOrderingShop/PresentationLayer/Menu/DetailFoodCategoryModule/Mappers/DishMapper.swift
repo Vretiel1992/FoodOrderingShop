@@ -11,6 +11,7 @@ class DishMapper: Mappable {
 
     func map(_ dish: Dish) -> DishCollectionViewCell.Model {
         DishCollectionViewCell.Model(
+            id: dish.id,
             dishName: dish.name,
             dishImageURL: dish.imageURL
         )

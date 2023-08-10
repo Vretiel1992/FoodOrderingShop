@@ -22,16 +22,19 @@ protocol AssemblyProtocol {
 class Assembly: AssemblyProtocol {
 
     func createTabBarModule() -> Presentable {
-        let view = TabBarController()
-        let router = TabBarRouter(
-            view: view,
-            assembly: self
+        let router = TabBarRouter()
+        let presenter = TabBarPresenter(router: router)
+        let view = TabBarController(
+            presenter: presenter,
+            tabs: [
+                .mainTab(createMainModule),
+                .searchTab(createSearchModule),
+                .basketTab(createBasketModule),
+                .accountTab(createAccountModule)
+            ]
         )
-        let presenter = TabBarPresenter(
-            view: view,
-            router: router
-        )
-        view.presenter = presenter
+        presenter.view = view
+        router.view = view
         return view
     }
 

@@ -17,9 +17,8 @@ protocol DetailFoodCategoryPresenterProtocol: AnyObject {
     func viewDidLoad()
     func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
     func didTapBackButton()
-    func didTapDishTag(_ indexPath: IndexPath)
-    func whichItemToSelect() -> IndexPath
-    func didTapDish(_ index: Int)
+    func didTapDishTag(with index: Int)
+    func didTapDish(with index: Int)
 }
 
 class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
@@ -32,6 +31,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     private let foodCategory: FoodCategory
     private let dishTagMapper = DishTagMapper()
     private let dishMapper = DishMapper()
+    private let tagGenerator = TagGenerator()
     private var dishes: [Dish] = [] {
         didSet {
             view?.update(
@@ -41,19 +41,7 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
         }
     }
 
-    private var dishTags: [Teg] = []
-
-    private var currentTag: Teg = .allMenu {
-        didSet {
-//            let sectionToUpdate = 1
-//            view?.update(itemIndexPaths, sectionToUpdate, mapper.map(currentTag, dishes))
-        }
-    }
-
-    private var itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath) = (
-        activeItem: IndexPath(item: 0, section: 0),
-        currentItem: IndexPath(item: 0, section: 0)
-    )
+    private var dishTags: [TagModel] = []
 
     // MARK: - Initializers
 
@@ -82,24 +70,33 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
         router.popToMain()
     }
 
-    func didTapDishTag(_ indexPath: IndexPath) {
-        guard indexPath.row < dishTags.count else { return }
-        itemIndexPaths.activeItem = itemIndexPaths.currentItem
-        itemIndexPaths.currentItem = indexPath
-        currentTag = dishTags[indexPath.row]
+    func didTapDishTag(with index: Int) {
+        guard index < dishTags.count else { return }
+        selectTag(with: index)
+        view?.update(
+            dishTags.map(dishTagMapper.map),
+            dishes.compactMap {
+                guard $0.tegs.contains(dishTags[index].teg.string) else {
+                    return nil
+                }
+                return dishMapper.map($0)
+            }
+        )
     }
 
-    func whichItemToSelect() -> IndexPath {
-        return itemIndexPaths.currentItem
-    }
-
-    func didTapDish(_ index: Int) {
+    func didTapDish(with index: Int) {
         guard index < dishes.count else { return }
-        let dish = dishes[index]
+        let dish = dishes[index - 1]
         router.openDetailDish(dish)
     }
 
     // MARK: - Private Methods
+
+    private func selectTag(with index: Int) {
+        dishTags = dishTags.enumerated().map { elementIndex, element in
+            TagModel(teg: element.teg, isSelected: elementIndex != index)
+        }
+    }
 
     private func getDishesData() {
         networkManager.loadDataModel(url: AppConstants.URLS.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
@@ -108,7 +105,8 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
                 switch result {
                 case .success(let dishes):
                     if let data = dishes {
-                        self.dishTags = TagGenerator().process(data.dishes)
+                        self.dishTags = self.tagGenerator.process(data.dishes)
+                        self.selectTag(with: 0)
                         self.dishes = data.dishes
                     }
                 case .failure(let error):

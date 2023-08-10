@@ -8,10 +8,10 @@
 
 // MARK: - Tabbar
 
-"TabBar.tabs.main" = "Главная";
-"TabBar.tabs.search" = "Поиск";
-"TabBar.tabs.basket" = "Корзина";
-"TabBar.tabs.account" = "Аккаунт";
+"TabBar.mainTitle" = "Главная";
+"TabBar.searchTitle" = "Поиск";
+"TabBar.basketTitle" = "Корзина";
+"TabBar.accountTitle" = "Аккаунт";
 
 // MARK: - MainModule
 

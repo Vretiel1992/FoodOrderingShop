@@ -13,11 +13,6 @@ protocol DetailFoodCategoryViewProtocol: AnyObject {
         _ dishTagData: [DishTagCollectionViewCell.Model],
         _ dishesData: [DishCollectionViewCell.Model]
     )
-    func update(
-        _ itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath),
-        _ sectionIndex: Int,
-        _ dishesData: [DishCollectionViewCell.Model]
-    )
     func failure(error: String)
 }
 
@@ -113,24 +108,6 @@ extension DetailFoodCategoryViewController: DetailFoodCategoryViewProtocol {
 
     func failure(error: String) {
         print(error)
-    }
-
-    func update(
-        _ itemIndexPaths: (activeItem: IndexPath, currentItem: IndexPath),
-        _ sectionIndex: Int,
-        _ dishesData: [DishCollectionViewCell.Model]
-    ) {
-        if let item = collectionView.cellForItem(at: itemIndexPaths.activeItem) as? DishTagCollectionViewCell {
-            item.toggleSelection()
-        }
-
-        if let item = collectionView.cellForItem(at: itemIndexPaths.currentItem) as? DishTagCollectionViewCell {
-            item.toggleSelection()
-        }
-        dishes = dishesData
-        collectionView.reloadSections(
-            IndexSet(integer: sectionIndex)
-        )
     }
 }
 
@@ -230,10 +207,9 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
             if indexPath.row < dishTags.count {
                 let tags = dishTags[indexPath.row]
                 item.configure(with: tags)
-                if let indexPathOfSelectedItem = presenter?.whichItemToSelect() {
-                    if indexPath == indexPathOfSelectedItem {
-                        item.toggleSelection()
-                    }
+
+                if !tags.selected {
+                    item.toggleSelection()
                 }
             }
 
@@ -275,9 +251,9 @@ extension DetailFoodCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            presenter?.didTapDishTag(indexPath)
+            presenter?.didTapDishTag(with: indexPath.row)
         case 1:
-            presenter?.didTapDish(indexPath.row)
+            presenter?.didTapDish(with: dishes[indexPath.item].id)
         default:
             break
         }

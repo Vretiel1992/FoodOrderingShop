@@ -97,6 +97,7 @@ extension DishTagCollectionViewCell: Configurable {
 
     struct Model {
         let dishTagName: String
+        var selected: Bool
     }
 
     func configure(with model: Model) {

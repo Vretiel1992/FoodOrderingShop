@@ -9,7 +9,10 @@ import Foundation
 
 class DishTagMapper: Mappable {
 
-    func map(_ dishTag: Teg) -> DishTagCollectionViewCell.Model {
-        DishTagCollectionViewCell.Model(dishTagName: dishTag.string)
+    func map(_ dishTag: TagModel) -> DishTagCollectionViewCell.Model {
+        DishTagCollectionViewCell.Model(
+            dishTagName: dishTag.teg.string,
+            selected: dishTag.isSelected
+        )
     }
 }

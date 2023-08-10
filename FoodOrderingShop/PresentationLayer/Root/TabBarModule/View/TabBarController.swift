@@ -10,52 +10,55 @@ import UIKit
 typealias Imageable = UIImage
 
 protocol TabBarViewProtocol: AnyObject {
-    func updateView(with tabs: [Tab])
+    init(presenter: TabBarPresenterProtocol, tabs: [TabModel])
 }
 
 class TabBarController: UITabBarController {
 
     // MARK: - Private Properties
 
-    var presenter: TabBarPresenterProtocol?
+    var presenter: TabBarPresenterProtocol
 
-    // MARK: - Lifecycle
+    // MARK: - Initializers
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureAppearance()
-        DispatchQueue.main.async { [weak self] in
-            self?.presenter?.viewDidLoad()
-        }
+    required init(
+        presenter: TabBarPresenterProtocol,
+        tabs: [TabModel]
+    ) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        configureAppearance(tabs: tabs)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Private Methods
 
-    private func configureAppearance() {
+    private func configureAppearance(tabs: [TabModel]) {
         tabBar.tintColor = Colors.activeTabBarItem.color
         tabBar.barTintColor = Colors.inactiveTabBarItem.color
         tabBar.backgroundColor = .white
         tabBar.layer.borderColor = Colors.borderTabBar.color.cgColor
         tabBar.layer.borderWidth = 1
         tabBar.layer.masksToBounds = true
-    }
-}
 
-// MARK: - TabBarViewProtocol
-
-extension TabBarController: TabBarViewProtocol {
-    func updateView(with tabs: [Tab]) {
-        let controllers: [UINavigationController] = tabs.map { tab in
+        let controllers: [UINavigationController] = tabs.enumerated().map { idx, tab in
             let controller = UINavigationController(
-                rootViewController: presenter?.giveController(for: tab) ?? UIViewController()
+                rootViewController: tab.controllerBuilder()
             )
             controller.tabBarItem = UITabBarItem(
-                title: presenter?.giveTitle(for: tab),
-                image: presenter?.giveIcon(for: tab),
-                tag: tab.rawValue
+                title: tab.title,
+                image: tab.icon,
+                tag: idx
             )
             return controller
         }
         setViewControllers(controllers, animated: false)
     }
 }
+
+// MARK: - TabBarViewProtocol
+
+extension TabBarController: TabBarViewProtocol {}

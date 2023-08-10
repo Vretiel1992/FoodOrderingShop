@@ -91,6 +91,7 @@ class DishCollectionViewCell: UICollectionViewCell {
 extension DishCollectionViewCell: Configurable {
 
     struct Model {
+        let id: Int
         let dishName: String
         var dishImage: UIImage?
         let dishImageURL: URL?

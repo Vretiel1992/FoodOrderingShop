@@ -9,14 +9,17 @@ import Foundation
 
 struct TagGenerator {
 
-    func process(_ dishes: [Dish]) -> [Teg] {
+    func process(_ dishes: [Dish]) -> [TagModel] {
         var tags = Set<String>()
 
         dishes.forEach { $0.tegs.forEach { tags.insert($0) } }
 
         let result = Array(tags).map {
-            $0 == Teg.allMenu.string ? Teg.allMenu : Teg.custom($0)
+            $0 == TagModel.Teg.allMenu.string
+            ? TagModel(teg: TagModel.Teg.allMenu, isSelected: false)
+            : TagModel(teg: TagModel.Teg.custom($0), isSelected: false)
         }
+
         return result.sorted()
     }
 }

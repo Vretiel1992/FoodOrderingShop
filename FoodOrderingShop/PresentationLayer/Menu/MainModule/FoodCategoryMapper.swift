@@ -11,7 +11,7 @@ class FoodCategoryMapper: Mappable {
 
     func map(_ inputModel: FoodCategory) -> MainTableViewCell.Model {
         var categoryName: String
-        if inputModel.name == "Пекарни и кондитерское",
+        if inputModel.id == 1,
            let range = inputModel.name.range(of: " ") {
             let firstWord = inputModel.name.prefix(upTo: range.lowerBound)
             let remainingText = inputModel.name.suffix(from: range.upperBound)

@@ -204,8 +204,8 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
                 return item
             }
 
-            if indexPath.row < dishTags.count {
-                let tags = dishTags[indexPath.row]
+            if indexPath.item < dishTags.count {
+                let tags = dishTags[indexPath.item]
                 item.configure(with: tags)
 
                 if !tags.selected {
@@ -226,8 +226,8 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
                 return item
             }
 
-            if indexPath.row < dishes.count {
-                var dish = self.dishes[indexPath.row]
+            if indexPath.item < dishes.count {
+                var dish = self.dishes[indexPath.item]
                 item.configure(with: dish)
 
                 if let urlToImage = dish.dishImageURL {
@@ -251,7 +251,7 @@ extension DetailFoodCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            presenter?.didTapDishTag(with: indexPath.row)
+            presenter?.didTapDishTag(with: indexPath.item)
         case 1:
             presenter?.didTapDish(with: dishes[indexPath.item].id)
         default:

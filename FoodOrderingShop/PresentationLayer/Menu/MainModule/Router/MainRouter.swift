@@ -11,7 +11,7 @@ protocol MainRouterProtocol {
     func openDetailFoodCategory(_ category: FoodCategory)
 }
 
-class MainRouter: MainRouterProtocol {
+final class MainRouter: MainRouterProtocol {
 
     // MARK: - Private Properties
 

@@ -10,16 +10,28 @@ import Foundation
 struct TagGenerator {
 
     func process(_ dishes: [Dish]) -> [TagModel] {
-        var tags = Set<String>()
 
-        dishes.forEach { $0.tegs.forEach { tags.insert($0) } }
+        var tags = Set<TagModel>()
 
-        let result = Array(tags).map {
-            $0 == TagModel.Teg.allMenu.string
-            ? TagModel(teg: TagModel.Teg.allMenu, isSelected: false)
-            : TagModel(teg: TagModel.Teg.custom($0), isSelected: false)
+        dishes.forEach {
+            $0.tags.forEach {
+                tags.insert($0)
+            }
         }
 
-        return result.sorted()
+        return tags.sorted()
+
+//        var tags = Set<String>()
+
+//        dishes.forEach { $0.tegs.forEach { tags.insert($0) } }
+
+//        let result = Array(tags).map {
+//            $0 == TagModel.Teg.allMenu.string
+//            ? TagModel(teg: TagModel.Teg.allMenu, isSelected: false)
+//            : TagModel(teg: TagModel.Teg.custom($0), isSelected: false)
+//        }
+
+//        return result.sorted()
+
     }
 }

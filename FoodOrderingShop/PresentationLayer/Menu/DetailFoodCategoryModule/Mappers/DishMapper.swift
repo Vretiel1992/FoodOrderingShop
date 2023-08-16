@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DishMapper: Mappable {
+final class DishMapper: Mappable {
 
     func map(_ dish: Dish) -> DishCollectionViewCell.Model {
         DishCollectionViewCell.Model(

@@ -13,7 +13,7 @@ protocol DetailDishViewProtocol: AnyObject {
     func failure(error: String)
 }
 
-class DetailDishViewController: UIViewController {
+final class DetailDishViewController: UIViewController {
 
     // MARK: - Public Properties
 
@@ -63,15 +63,7 @@ class DetailDishViewController: UIViewController {
 
 extension DetailDishViewController: DetailDishViewProtocol {
     func update(with selectedDish: DishView.Model) {
-        var dish = selectedDish
-        if let urlToImage = dish.dishImageURL {
-            presenter?.giveImageData(url: urlToImage) { data in
-                guard let imageData = data else { return }
-                dish.dishImage = UIImage(data: imageData)
-                self.dishView.configure(with: dish)
-            }
-        }
-
+        let dish = selectedDish
         dishView.configure(with: dish)
     }
 

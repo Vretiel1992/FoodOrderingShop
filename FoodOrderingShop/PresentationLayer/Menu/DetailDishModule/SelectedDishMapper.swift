@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SelectedDishMapper: Mappable {
+final class SelectedDishMapper: Mappable {
 
     func map(_ selectedDish: Dish) -> DishView.Model {
         DishView.Model(
@@ -15,7 +15,9 @@ class SelectedDishMapper: Mappable {
             dishName: selectedDish.name,
             dishPrice: selectedDish.price,
             dishWeight: selectedDish.weight,
-            dishDescription: selectedDish.description
+            dishDescription: selectedDish.description,
+            isFavorite: selectedDish.isFavorite,
+            inBasket: selectedDish.inBasket
         )
     }
 }

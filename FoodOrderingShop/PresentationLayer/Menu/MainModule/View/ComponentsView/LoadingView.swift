@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoadingView: UIView {
+final class LoadingView: UIView {
 
     // MARK: - Private Properties
 

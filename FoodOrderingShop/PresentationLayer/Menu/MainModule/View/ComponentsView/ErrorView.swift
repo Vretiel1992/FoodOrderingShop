@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ErrorView: UIView {
+final class ErrorView: UIView {
 
     // MARK: - Public Properties
 

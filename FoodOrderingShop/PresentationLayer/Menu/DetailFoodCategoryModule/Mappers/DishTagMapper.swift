@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DishTagMapper: Mappable {
+final class DishTagMapper: Mappable {
 
     func map(_ dishTag: TagModel) -> DishTagCollectionViewCell.Model {
         DishTagCollectionViewCell.Model(

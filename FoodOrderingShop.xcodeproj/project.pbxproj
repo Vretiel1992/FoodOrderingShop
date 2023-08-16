@@ -55,6 +55,14 @@
 		E4C3155F2A52E597007949FE /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C3155E2A52E597007949FE /* Assembly.swift */; };
 		E4C315612A52EB70007949FE /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C315602A52EB70007949FE /* MainTableViewCell.swift */; };
 		E4E4BD262A82DBC80002B202 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD252A82DBC80002B202 /* TagModel.swift */; };
+		E4E4BD2B2A8A64210002B202 /* Dish.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD2A2A8A64210002B202 /* Dish.swift */; };
+		E4E4BD2D2A8A644A0002B202 /* MenuAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD2C2A8A644A0002B202 /* MenuAPIManager.swift */; };
+		E4E4BD312A8A680E0002B202 /* BasketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD302A8A680E0002B202 /* BasketManager.swift */; };
+		E4E4BD332A8A7C9E0002B202 /* FoodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD322A8A7C9E0002B202 /* FoodCategory.swift */; };
+		E4E4BD352A8AAA5E0002B202 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD342A8AAA5E0002B202 /* UIImageView+.swift */; };
+		E4E4BD372A8BFCB10002B202 /* BasketPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD362A8BFCB10002B202 /* BasketPresenter.swift */; };
+		E4E4BD3F2A8D279C0002B202 /* BasketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD3E2A8D279C0002B202 /* BasketTableViewCell.swift */; };
+		E4E4BD412A8D39BC0002B202 /* BasketDishMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E4BD402A8D39BC0002B202 /* BasketDishMapper.swift */; };
 		E4FAF02A2A56F1F000EB963E /* DishTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FAF0292A56F1F000EB963E /* DishTagCollectionViewCell.swift */; };
 		E4FAF02C2A56FE5C00EB963E /* DishCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FAF02B2A56FE5C00EB963E /* DishCollectionViewCell.swift */; };
 		E4FAF02F2A580CE000EB963E /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FAF02E2A580CE000EB963E /* MainRouter.swift */; };
@@ -113,6 +121,14 @@
 		E4C3155E2A52E597007949FE /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		E4C315602A52EB70007949FE /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		E4E4BD252A82DBC80002B202 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
+		E4E4BD2A2A8A64210002B202 /* Dish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dish.swift; sourceTree = "<group>"; };
+		E4E4BD2C2A8A644A0002B202 /* MenuAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAPIManager.swift; sourceTree = "<group>"; };
+		E4E4BD302A8A680E0002B202 /* BasketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketManager.swift; sourceTree = "<group>"; };
+		E4E4BD322A8A7C9E0002B202 /* FoodCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategory.swift; sourceTree = "<group>"; };
+		E4E4BD342A8AAA5E0002B202 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		E4E4BD362A8BFCB10002B202 /* BasketPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketPresenter.swift; sourceTree = "<group>"; };
+		E4E4BD3E2A8D279C0002B202 /* BasketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketTableViewCell.swift; sourceTree = "<group>"; };
+		E4E4BD402A8D39BC0002B202 /* BasketDishMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketDishMapper.swift; sourceTree = "<group>"; };
 		E4FAF0292A56F1F000EB963E /* DishTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		E4FAF02B2A56FE5C00EB963E /* DishCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCollectionViewCell.swift; sourceTree = "<group>"; };
 		E4FAF02E2A580CE000EB963E /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
@@ -431,6 +447,7 @@
 			children = (
 				E4C3153D2A516C94007949FE /* View */,
 				E4C3153E2A516C94007949FE /* Presenter */,
+				E4E4BD402A8D39BC0002B202 /* BasketDishMapper.swift */,
 			);
 			path = BasketModule;
 			sourceTree = "<group>";
@@ -446,8 +463,8 @@
 		E4C315332A516C5F007949FE /* ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
-				E4C315582A51FF2C007949FE /* NetworkManager.swift */,
-				E4C3155A2A51FF47007949FE /* LocationManager.swift */,
+				E4E4BD272A8A639E0002B202 /* Domain Layer */,
+				E4E4BD282A8A63AC0002B202 /* CoreLayer */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -496,6 +513,7 @@
 		E4C3153D2A516C94007949FE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E4E4BD3D2A8D27780002B202 /* ComponentsView */,
 				E4C3154D2A51B7C8007949FE /* BasketViewController.swift */,
 			);
 			path = View;
@@ -504,6 +522,7 @@
 		E4C3153E2A516C94007949FE /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				E4E4BD362A8BFCB10002B202 /* BasketPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -530,6 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				E4C315492A518BC1007949FE /* UIColor+.swift */,
+				E4E4BD342A8AAA5E0002B202 /* UIImageView+.swift */,
 				E4C3155C2A520AEB007949FE /* Error+.swift */,
 				E445DF9C2A5B39C1002A2B3A /* UILabel+.swift */,
 				E445DFB92A61565D002A2B3A /* UIButton+.swift */,
@@ -564,6 +584,42 @@
 				E4E4BD252A82DBC80002B202 /* TagModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E4E4BD272A8A639E0002B202 /* Domain Layer */ = {
+			isa = PBXGroup;
+			children = (
+				E4E4BD292A8A63C90002B202 /* Models */,
+			);
+			path = "Domain Layer";
+			sourceTree = "<group>";
+		};
+		E4E4BD282A8A63AC0002B202 /* CoreLayer */ = {
+			isa = PBXGroup;
+			children = (
+				E4C315582A51FF2C007949FE /* NetworkManager.swift */,
+				E4C3155A2A51FF47007949FE /* LocationManager.swift */,
+				E4E4BD2C2A8A644A0002B202 /* MenuAPIManager.swift */,
+				E4E4BD302A8A680E0002B202 /* BasketManager.swift */,
+			);
+			path = CoreLayer;
+			sourceTree = "<group>";
+		};
+		E4E4BD292A8A63C90002B202 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4E4BD2A2A8A64210002B202 /* Dish.swift */,
+				E4E4BD322A8A7C9E0002B202 /* FoodCategory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E4E4BD3D2A8D27780002B202 /* ComponentsView */ = {
+			isa = PBXGroup;
+			children = (
+				E4E4BD3E2A8D279C0002B202 /* BasketTableViewCell.swift */,
+			);
+			path = ComponentsView;
 			sourceTree = "<group>";
 		};
 		E4FAF0282A56E65800EB963E /* ComponentsView */ = {
@@ -750,6 +806,7 @@
 				E4C3155D2A520AEB007949FE /* Error+.swift in Sources */,
 				E4C3154C2A51B794007949FE /* SearchViewController.swift in Sources */,
 				E4FAF02F2A580CE000EB963E /* MainRouter.swift in Sources */,
+				E4E4BD352A8AAA5E0002B202 /* UIImageView+.swift in Sources */,
 				E438D2512A55802D00D96754 /* MenuModel.swift in Sources */,
 				E4C3151A2A51699D007949FE /* AppDelegate.swift in Sources */,
 				E438D24F2A55705700D96754 /* DetailFoodCategoryPresenter.swift in Sources */,
@@ -766,14 +823,19 @@
 				E4C315442A518A88007949FE /* TabBarController.swift in Sources */,
 				E445DFA02A5ECB70002A2B3A /* DetailFoodCategoryRouter.swift in Sources */,
 				E4C3151C2A51699D007949FE /* SceneDelegate.swift in Sources */,
+				E4E4BD2D2A8A644A0002B202 /* MenuAPIManager.swift in Sources */,
 				E48482AC2A72CF6600681F30 /* SelectedDishMapper.swift in Sources */,
 				E4C3154E2A51B7C8007949FE /* BasketViewController.swift in Sources */,
 				E445DFBA2A61565D002A2B3A /* UIButton+.swift in Sources */,
 				E48482AA2A72CED300681F30 /* DishMapper.swift in Sources */,
 				E4C3155F2A52E597007949FE /* Assembly.swift in Sources */,
+				E4E4BD412A8D39BC0002B202 /* BasketDishMapper.swift in Sources */,
 				E445DF9D2A5B39C1002A2B3A /* UILabel+.swift in Sources */,
 				E48482BC2A73C3E000681F30 /* TabModel.swift in Sources */,
+				E4E4BD312A8A680E0002B202 /* BasketManager.swift in Sources */,
+				E4E4BD3F2A8D279C0002B202 /* BasketTableViewCell.swift in Sources */,
 				E4C3154A2A518BC1007949FE /* UIColor+.swift in Sources */,
+				E4E4BD2B2A8A64210002B202 /* Dish.swift in Sources */,
 				E4C315552A51F9FC007949FE /* MainPresenter.swift in Sources */,
 				E46407A72A6D5BAA0019296F /* Colors.swift in Sources */,
 				E4C3155B2A51FF47007949FE /* LocationManager.swift in Sources */,
@@ -781,11 +843,13 @@
 				E484829B2A728EC800681F30 /* TagGenerator.swift in Sources */,
 				E445DFB02A60483D002A2B3A /* DetailDishPresenter.swift in Sources */,
 				E4A8BFDF2A548AF700D176E9 /* ErrorView.swift in Sources */,
+				E4E4BD372A8BFCB10002B202 /* BasketPresenter.swift in Sources */,
 				E4C315572A51FEDD007949FE /* FoodCategoriesModel.swift in Sources */,
 				E438D24D2A55704100D96754 /* DetailFoodCategoryViewController.swift in Sources */,
 				E4FAF02A2A56F1F000EB963E /* DishTagCollectionViewCell.swift in Sources */,
 				E4C315502A51B7FF007949FE /* AccountViewController.swift in Sources */,
 				E4C315532A51CE89007949FE /* TopMainView.swift in Sources */,
+				E4E4BD332A8A7C9E0002B202 /* FoodCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

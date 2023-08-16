@@ -10,23 +10,22 @@ import Foundation
 protocol DetailFoodCategoryPresenterProtocol: AnyObject {
     init(
         view: DetailFoodCategoryViewProtocol,
-        networkManager: NetworkManagerProtocol,
+        menuAPIManager: MenuAPIManagerProtocol,
         router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory
     )
     func viewDidLoad()
-    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
     func didTapBackButton()
     func didTapDishTag(with index: Int)
     func didTapDish(with index: Int)
 }
 
-class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
+final class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
 
     // MARK: - Private Properties
 
     private weak var view: DetailFoodCategoryViewProtocol?
-    private let networkManager: NetworkManagerProtocol
+    private let menuAPIManager: MenuAPIManagerProtocol
     private let router: DetailFoodCategoryRouterProtocol
     private let foodCategory: FoodCategory
     private let dishTagMapper = DishTagMapper()
@@ -47,11 +46,11 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
 
     required init(
         view: DetailFoodCategoryViewProtocol,
-        networkManager: NetworkManagerProtocol,
+        menuAPIManager: MenuAPIManagerProtocol,
         router: DetailFoodCategoryRouterProtocol,
         foodCategory: FoodCategory) {
             self.view = view
-            self.networkManager = networkManager
+            self.menuAPIManager = menuAPIManager
             self.router = router
             self.foodCategory = foodCategory
         }
@@ -60,10 +59,6 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
 
     func viewDidLoad() {
         getDishesData()
-    }
-
-    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void) {
-        getImage(url: url, completion: completion)
     }
 
     func didTapBackButton() {
@@ -76,9 +71,12 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
         view?.update(
             dishTags.map(dishTagMapper.map),
             dishes.compactMap {
-                guard $0.tegs.contains(dishTags[index].teg.string) else {
+                guard $0.tags.contains(dishTags[index]) else {
                     return nil
                 }
+//                guard $0.tegs.contains(dishTags[index].teg.string) else {
+//                    return nil
+//                }
                 return dishMapper.map($0)
             }
         )
@@ -99,30 +97,14 @@ class DetailFoodCategoryPresenter: DetailFoodCategoryPresenterProtocol {
     }
 
     private func getDishesData() {
-        networkManager.loadDataModel(url: AppConstants.URLS.urlDishes) { [weak self] (result: Result<MenuModel?, Error>) in
+        menuAPIManager.getDishes { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
-                case .success(let dishes):
-                    if let data = dishes {
-                        self.dishTags = self.tagGenerator.process(data.dishes)
+                case .success(let dishesData):
+                        self.dishTags = self.tagGenerator.process(dishesData)
                         self.selectTag(with: 0)
-                        self.dishes = data.dishes
-                    }
-                case .failure(let error):
-                    self.view?.failure(error: error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
-        networkManager.loadImageData(url: url) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let imageData):
-                    completion(imageData)
+                        self.dishes = dishesData
                 case .failure(let error):
                     self.view?.failure(error: error.localizedDescription)
                 }

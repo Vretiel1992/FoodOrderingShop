@@ -11,11 +11,10 @@ protocol MainPresenterProtocol: AnyObject {
     init(
         view: MainViewProtocol,
         router: MainRouterProtocol,
-        networkManager: NetworkManagerProtocol,
+        menuAPIManager: MenuAPIManagerProtocol,
         locationManager: LocationManagerProtocol
     )
     func viewDidLoad()
-    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void)
     func didTapFoodCategory(index: Int)
     func didTapUpdateViewButton()
 }
@@ -25,7 +24,7 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Private Properties
 
     private weak var view: MainViewProtocol?
-    private let networkManager: NetworkManagerProtocol
+    private let menuAPIManager: MenuAPIManagerProtocol
     private let locationManager: LocationManagerProtocol
     private let router: MainRouterProtocol
     private let foodCategoryMapper = FoodCategoryMapper()
@@ -41,12 +40,12 @@ class MainPresenter: MainPresenterProtocol {
     required init(
         view: MainViewProtocol,
         router: MainRouterProtocol,
-        networkManager: NetworkManagerProtocol,
+        menuAPIManager: MenuAPIManagerProtocol,
         locationManager: LocationManagerProtocol
     ) {
         self.view = view
         self.router = router
-        self.networkManager = networkManager
+        self.menuAPIManager = menuAPIManager
         self.locationManager = locationManager
     }
 
@@ -56,10 +55,6 @@ class MainPresenter: MainPresenterProtocol {
         getFoodCategoriesData()
         checkLocationAuthorization()
         updateLocationLabel()
-    }
-
-    func giveImageData(url: URL, _ completion: @escaping (Data?) -> Void) {
-        getImage(url: url, completion: completion)
     }
 
     func didTapFoodCategory(index: Int) {
@@ -75,30 +70,12 @@ class MainPresenter: MainPresenterProtocol {
     // MARK: - Private Methods
 
     private func getFoodCategoriesData() {
-        networkManager.loadDataModel(
-            url: AppConstants.URLS.urlFoodCategories
-        ) { [weak self] (result: Result<FoodCategoriesModel?, Error>) in
+        menuAPIManager.getFoodCategories { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
-                case .success(let dataOfFoodCategories):
-                    if let data = dataOfFoodCategories {
-                        self.foodCategories = data.сategories
-                    }
-                case .failure(let error):
-                    self.view?.failure(error: error.localizedDescription)
-                }
-            }
-        }
-    }
-
-    private func getImage(url: URL, completion: @escaping (Data?) -> Void) {
-        networkManager.loadImageData(url: url) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let imageData):
-                    completion(imageData)
+                case .success(let foodCategoriesData):
+                    self.foodCategories = foodCategoriesData
                 case .failure(let error):
                     self.view?.failure(error: error.localizedDescription)
                 }

@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 import SnapKit
 
-class TopMainView: UIView {
+final class TopMainView: UIView {
 
     // MARK: - Types
 

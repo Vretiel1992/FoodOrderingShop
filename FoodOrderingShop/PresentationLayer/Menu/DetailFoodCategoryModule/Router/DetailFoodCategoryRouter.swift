@@ -12,7 +12,7 @@ protocol DetailFoodCategoryRouterProtocol {
     func openDetailDish(_ dish: Dish)
 }
 
-class DetailFoodCategoryRouter: DetailFoodCategoryRouterProtocol {
+final class DetailFoodCategoryRouter: DetailFoodCategoryRouterProtocol {
 
     // MARK: - Private Properties
 

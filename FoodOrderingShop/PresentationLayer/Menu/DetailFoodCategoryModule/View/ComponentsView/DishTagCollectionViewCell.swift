@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DishTagCollectionViewCell: UICollectionViewCell {
+final class DishTagCollectionViewCell: UICollectionViewCell {
 
     enum SelectionState {
         case selected

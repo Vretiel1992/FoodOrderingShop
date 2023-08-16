@@ -11,7 +11,7 @@ protocol DetailDishRouterProtocol {
     func dismiss()
 }
 
-class DetailDishRouter: DetailDishRouterProtocol {
+final class DetailDishRouter: DetailDishRouterProtocol {
 
     // MARK: - Private Properties
 

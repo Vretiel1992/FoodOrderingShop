@@ -16,7 +16,7 @@ protocol DetailFoodCategoryViewProtocol: AnyObject {
     func failure(error: String)
 }
 
-class DetailFoodCategoryViewController: UIViewController {
+final class DetailFoodCategoryViewController: UIViewController {
 
     // MARK: - Types
 
@@ -227,17 +227,8 @@ extension DetailFoodCategoryViewController: UICollectionViewDataSource {
             }
 
             if indexPath.item < dishes.count {
-                var dish = self.dishes[indexPath.item]
+                let dish = self.dishes[indexPath.item]
                 item.configure(with: dish)
-
-                if let urlToImage = dish.dishImageURL {
-                    presenter?.giveImageData(url: urlToImage) { data in
-                        guard let imageData = data else { return }
-
-                        dish.dishImage = UIImage(data: imageData)
-                        item.configure(with: dish)
-                    }
-                }
             }
 
             return item

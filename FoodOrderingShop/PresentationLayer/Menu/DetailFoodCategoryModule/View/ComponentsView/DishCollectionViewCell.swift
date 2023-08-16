@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DishCollectionViewCell: UICollectionViewCell {
+final class DishCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Private Properties
 
@@ -93,7 +93,6 @@ extension DishCollectionViewCell: Configurable {
     struct Model {
         let id: Int
         let dishName: String
-        var dishImage: UIImage?
         let dishImageURL: URL?
     }
 
@@ -107,8 +106,8 @@ extension DishCollectionViewCell: Configurable {
         let attributedString = NSAttributedString(string: model.dishName, attributes: attributes)
         dishNameLabel.attributedText = attributedString
 
-        if let image = model.dishImage {
-            dishImageView.image = image
+        if let url = model.dishImageURL {
+            dishImageView.setImageURL(url)
         }
     }
 }

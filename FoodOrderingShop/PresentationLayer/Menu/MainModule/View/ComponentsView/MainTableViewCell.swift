@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MainTableViewCell: UITableViewCell {
+final class MainTableViewCell: UITableViewCell {
 
     // MARK: - Private Properties
 
@@ -89,7 +89,6 @@ extension MainTableViewCell: Configurable {
 
     struct Model {
         let foodCategoryName: String
-        var foodCategoryImage: UIImage?
         let foodCategoryImageURL: URL?
     }
 
@@ -100,8 +99,8 @@ extension MainTableViewCell: Configurable {
             kern: -0.1
         )
 
-        if let image = model.foodCategoryImage {
-            foodCategoryImageView.image = image
+        if let url = model.foodCategoryImageURL {
+            foodCategoryImageView.setImageURL(url)
         }
     }
 }

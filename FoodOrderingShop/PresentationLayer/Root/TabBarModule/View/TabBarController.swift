@@ -13,7 +13,7 @@ protocol TabBarViewProtocol: AnyObject {
     init(presenter: TabBarPresenterProtocol, tabs: [TabModel])
 }
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
 
     // MARK: - Private Properties
 

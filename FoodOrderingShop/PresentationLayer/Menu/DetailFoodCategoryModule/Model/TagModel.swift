@@ -8,7 +8,7 @@
 import Foundation
 
 struct TagModel {
-    enum Teg: Comparable {
+    enum Teg: Comparable, Hashable {
         case allMenu
         case custom(String)
 
@@ -42,5 +42,16 @@ extension TagModel: Comparable {
         }
 
         return lhsIndex < rhsIndex
+    }
+}
+
+extension TagModel: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(teg)
+        hasher.combine(isSelected)
+    }
+
+    static func == (lhs: TagModel, rhs: TagModel) -> Bool {
+        return lhs.teg == rhs.teg && lhs.isSelected == rhs.isSelected
     }
 }

@@ -11,7 +11,7 @@ protocol TabBarPresenterProtocol: AnyObject {
     init(router: TabBarRouterProtocol)
 }
 
-class TabBarPresenter: TabBarPresenterProtocol {
+final class TabBarPresenter: TabBarPresenterProtocol {
 
     // MARK: - Private Properties
 

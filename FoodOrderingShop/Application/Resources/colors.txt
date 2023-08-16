@@ -1,6 +1,7 @@
 # App
 primaryBackgroundColor: #F8F7F5
 secondaryBackgroundColor: #3364E0
+tertiaryBackgroundColor: #EFEEEC
 
 # TabBar
 activeTabBarItem: secondaryBackgroundColor

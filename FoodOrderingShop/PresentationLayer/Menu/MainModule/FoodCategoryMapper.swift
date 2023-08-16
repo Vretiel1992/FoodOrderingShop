@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FoodCategoryMapper: Mappable {
+final class FoodCategoryMapper: Mappable {
 
     func map(_ inputModel: FoodCategory) -> MainTableViewCell.Model {
         var categoryName: String

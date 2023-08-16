@@ -8,10 +8,10 @@
 import Foundation
 
 struct FoodCategoriesModel: Codable {
-    let сategories: [FoodCategory]
+    let сategories: [FoodCategoryModel]
 }
 
-struct FoodCategory: Codable {
+struct FoodCategoryModel: Codable {
     let id: Int
     let name: String
     let imageURL: URL?

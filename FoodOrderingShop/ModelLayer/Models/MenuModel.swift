@@ -8,10 +8,10 @@
 import Foundation
 
 struct MenuModel: Codable {
-    let dishes: [Dish]
+    let dishes: [DishModel]
 }
 
-struct Dish: Codable {
+struct DishModel: Codable {
     let id: Int
     let name: String
     let price, weight: Int

@@ -15,7 +15,7 @@ protocol LocationManagerProtocol {
     func requestWhenInUseAuthorization()
 }
 
-class LocationManager: NSObject, LocationManagerProtocol {
+final class LocationManager: NSObject, LocationManagerProtocol {
 
     typealias LocationUpdateHandler = (CLLocation, CLGeocoder) -> Void
     typealias AuthorizationStatusHandler = (CLAuthorizationStatus) -> Void
@@ -61,7 +61,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Не удалось получить местоположение пользователя: \(error.localizedDescription)")
+        print(Strings.LocationManager.Errors.failedToGetUserLocation + error.localizedDescription)
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

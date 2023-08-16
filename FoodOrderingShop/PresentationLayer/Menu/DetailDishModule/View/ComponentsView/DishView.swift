@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DishView: UIView {
+final class DishView: UIView {
 
     // MARK: - Public Properties
 
@@ -83,49 +83,17 @@ class DishView: UIView {
 
     private lazy var addToBasketButton: UIButton = {
         let button = UIButton()
-        var config = UIButton.Configuration.filled()
-        let title = Strings.DetailDishModule.DishView.AddToBasketButton.title
-        config.baseBackgroundColor = Colors.secondaryBackgroundColor.color
-        config.baseForegroundColor = .white
-        config.cornerStyle = .medium
-        config.contentInsets = NSDirectionalEdgeInsets(
-            top: 15,
-            leading: 82,
-            bottom: 15,
-            trailing: 82
-        )
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.92
-        let attributeContainer = AttributeContainer([
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            NSAttributedString.Key.kern: -0.47,
-            NSAttributedString.Key.paragraphStyle: paragraphStyle
-        ])
-        config.attributedTitle = AttributedString(title, attributes: attributeContainer)
         button.addAction(UIAction(handler: { [weak self] _ in
             self?.didTapAddToBasketButton?()
         }), for: .touchUpInside)
-        button.configuration = config
         return button
     }()
 
-    private lazy var favoritesButton: UIButton = {
+    private lazy var favoriteButton: UIButton = {
         let button = UIButton()
-        var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = .white
-        config.baseForegroundColor = .black
-        config.cornerStyle = .medium
-        config.image = Assets.DetailDishModule.favoritesIcon.image
-        config.contentInsets = NSDirectionalEdgeInsets(
-            top: 10,
-            leading: 10,
-            bottom: 10,
-            trailing: 10
-        )
         button.addAction(UIAction(handler: { [weak self] _ in
             self?.didTapFavoritesButton?()
         }), for: .touchUpInside)
-        button.configuration = config
         return button
     }()
 
@@ -169,7 +137,7 @@ class DishView: UIView {
         vStackView.addArrangedSubview(backViewDish)
         backViewDish.addSubview(dishImageView)
         backViewDish.addSubview(hStackView)
-        hStackView.addArrangedSubview(favoritesButton)
+        hStackView.addArrangedSubview(favoriteButton)
         hStackView.addArrangedSubview(dismissButton)
         vStackView.addArrangedSubview(dishNameLabel)
         vStackView.addArrangedSubview(priceAndWeightLabel)
@@ -203,22 +171,70 @@ class DishView: UIView {
             make.width.equalTo(88)
         }
     }
+
+    private func changeFavoriteButtonStyle(isFavorite: Bool) {
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .white
+        config.baseForegroundColor = .black
+        config.cornerStyle = .medium
+        config.image = isFavorite
+        ? Assets.DetailDishModule.favoriteIcon.image
+        : Assets.DetailDishModule.noFavoriteIcon.image
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 10,
+            bottom: 10,
+            trailing: 10
+        )
+        favoriteButton.configuration = config
+    }
+
+    private func changeAddToBasketButtonStyle(inBasket: Bool) {
+        var config = UIButton.Configuration.filled()
+        var title = ""
+        if inBasket {
+            title = Strings.DetailDishModule.DishView.AddToBasketButton.Title.inBasket
+            config.baseBackgroundColor = .black.withAlphaComponent(0.15)
+            config.baseForegroundColor = .black
+        } else {
+            title = Strings.DetailDishModule.DishView.AddToBasketButton.Title.noInBasket
+            config.baseBackgroundColor = Colors.secondaryBackgroundColor.color
+            config.baseForegroundColor = .white
+        }
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: 15,
+            leading: 82,
+            bottom: 15,
+            trailing: 82
+        )
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 0.92
+        let attributeContainer = AttributeContainer([
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            NSAttributedString.Key.kern: -0.47,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ])
+        config.attributedTitle = AttributedString(title, attributes: attributeContainer)
+        addToBasketButton.configuration = config
+    }
 }
 
 extension DishView: Configurable {
 
     struct Model {
-        var dishImage: UIImage?
         let dishImageURL: URL?
         let dishName: String
         let dishPrice: Int
         let dishWeight: Int
         let dishDescription: String
+        var isFavorite: Bool
+        var inBasket: Bool
     }
 
     func configure(with model: Model) {
-        if let image = model.dishImage {
-            dishImageView.image = image
+        if let url = model.dishImageURL {
+            dishImageView.setImageURL(url)
         }
 
         dishNameLabel.setTextAttributes(
@@ -234,6 +250,9 @@ extension DishView: Configurable {
             lineHeightMultiple: 0.92,
             kern: -0.4
         )
+
+        changeFavoriteButtonStyle(isFavorite: model.isFavorite)
+        changeAddToBasketButtonStyle(inBasket: model.inBasket)
 
         func setTextAttributes() -> NSMutableAttributedString {
             let priceText = String(model.dishPrice) + " ₽"

@@ -21,6 +21,24 @@ protocol AssemblyProtocol {
 
 class Assembly: AssemblyProtocol {
 
+    // MARK: - Private Properties
+
+    private let networkManager: NetworkManagerProtocol
+    private let locationManager: LocationManagerProtocol
+    private let menuAPIManager: MenuAPIManagerProtocol
+    private let basketManager: BasketManagerProtocol
+
+    // MARK: - Initializers
+
+    init() {
+        self.networkManager = NetworkManager()
+        self.locationManager = LocationManager()
+        self.menuAPIManager = MenuAPIManager(networkManager: networkManager)
+        self.basketManager = BasketManager(networkManager: networkManager)
+    }
+
+    // MARK: - Protocol Methods
+
     func createTabBarModule() -> Presentable {
         let router = TabBarRouter()
         let presenter = TabBarPresenter(router: router)
@@ -40,8 +58,6 @@ class Assembly: AssemblyProtocol {
 
     func createMainModule() -> Presentable {
         let view = MainViewController()
-        let networkManager = NetworkManager()
-        let locationManager = LocationManager()
         let router = MainRouter(
             view: view,
             assembly: self
@@ -49,7 +65,7 @@ class Assembly: AssemblyProtocol {
         let presenter = MainPresenter(
             view: view,
             router: router,
-            networkManager: networkManager,
+            menuAPIManager: menuAPIManager,
             locationManager: locationManager
         )
         view.presenter = presenter
@@ -58,14 +74,13 @@ class Assembly: AssemblyProtocol {
 
     func createDetailFoodCategoryModule(foodCategory: FoodCategory) -> Presentable {
         let view = DetailFoodCategoryViewController()
-        let networkManager = NetworkManager()
         let router = DetailFoodCategoryRouter(
             view: view,
             assembly: self
         )
         let presenter = DetailFoodCategoryPresenter(
             view: view,
-            networkManager: networkManager,
+            menuAPIManager: menuAPIManager,
             router: router,
             foodCategory: foodCategory
         )
@@ -75,12 +90,11 @@ class Assembly: AssemblyProtocol {
 
     func createDetailDishModule(dish: Dish) -> Presentable {
         let view = DetailDishViewController()
-        let networkManager = NetworkManager()
         let router = DetailDishRouter(view: view)
         let presenter = DetailDishPresenter(
             view: view,
-            networkManager: networkManager,
             router: router,
+            basketManager: basketManager,
             dish: dish
         )
         view.presenter = presenter
@@ -94,6 +108,11 @@ class Assembly: AssemblyProtocol {
 
     func createBasketModule() -> Presentable {
         let view = BasketViewController()
+        let presenter = BasketPresenter(
+            view: view,
+            basketManager: basketManager
+        )
+        view.presenter = presenter
         return view
     }
 

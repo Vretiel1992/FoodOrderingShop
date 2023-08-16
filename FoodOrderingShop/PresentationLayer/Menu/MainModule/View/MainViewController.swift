@@ -15,7 +15,7 @@ protocol MainViewProtocol: AnyObject {
     func showLocationAccessDeniedAlert()
 }
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     // MARK: - Types
 
@@ -183,17 +183,8 @@ extension MainViewController: UITableViewDataSource {
         }
 
         if indexPath.row < categories.count {
-            var category = categories[indexPath.row]
+            let category = categories[indexPath.row]
             cell.configure(with: category)
-
-            if let urlToImage = category.foodCategoryImageURL {
-                presenter?.giveImageData(url: urlToImage) { data in
-                    guard let imageData = data else { return }
-
-                    category.foodCategoryImage = UIImage(data: imageData)
-                    cell.configure(with: category)
-                }
-            }
         }
         return cell
     }

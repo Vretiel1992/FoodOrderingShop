@@ -29,7 +29,8 @@
 
 // MARK: - DetailDishModule
 
-"DetailDishModule.DishView.addToBasketButton.title" = "Добавить в корзину";
+"DetailDishModule.DishView.addToBasketButton.title.noInBasket" = "Добавить в корзину";
+"DetailDishModule.DishView.addToBasketButton.title.inBasket" = "В корзине";
 
 // MARK: - MenuModel
 
@@ -37,3 +38,13 @@
 "MenuModel.tagNameSalads" = "Салаты";
 "MenuModel.tagNameWithRice" = "С рисом";
 "MenuModel.tagNameWithFish" = "С рыбой";
+
+// MARK: - NetworkManager
+
+"NetworkManager.errors.noInternetConnection" = "Отсутствует подключение к интернету";
+"NetworkManager.errors.decode" = "Ошибка декодирования данных";
+"NetworkManager.errors.unknown" = "Неизвестная ошибка";
+
+// MARK: - LocationManager
+
+"LocationManager.errors.failedToGetUserLocation" = "Не удалось получить местоположение пользователя ";

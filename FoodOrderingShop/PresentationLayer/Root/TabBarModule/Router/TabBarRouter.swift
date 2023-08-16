@@ -11,7 +11,7 @@ protocol TabBarRouterProtocol {
     func switchTo(index: Int)
 }
 
-class TabBarRouter: TabBarRouterProtocol {
+final class TabBarRouter: TabBarRouterProtocol {
 
     // MARK: - Private Properties
 

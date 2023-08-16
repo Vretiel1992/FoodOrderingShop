@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TopDetailFoodCategoryView: UIView {
+final class TopDetailFoodCategoryView: UIView {
 
     // MARK: - Public Properties
 

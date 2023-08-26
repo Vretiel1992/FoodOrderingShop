@@ -14,3 +14,10 @@ protocol Mappable {
 
     func map(_ inputModel: InputModel) -> ResultModel
 }
+
+extension Mappable {
+
+    func map(_ inputModels: [InputModel]) -> [ResultModel] {
+        inputModels.map(map(_:))
+    }
+}

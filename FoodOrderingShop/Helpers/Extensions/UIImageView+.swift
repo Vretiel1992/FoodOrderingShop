@@ -35,9 +35,9 @@ extension UIImageView {
         loadImage(url, placeholder: placeholder) { [weak self] image in
             guard let self = self else { return }
 
-//            guard self.tag == url.hashValue else { return }
-
             DispatchQueue.main.async {
+                guard self.tag == url.hashValue else { return }
+
                 self.image = image
             }
         }
